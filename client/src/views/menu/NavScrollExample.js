@@ -1,15 +1,14 @@
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import {logout, useAuthDispatch, useAuthState} from "../../context";
+import {logout, useAuthDispatch} from "../../context";
 import {useNavigate} from "react-router-dom";
 import {user} from "../../context/Reducer";
 import mainLogo from'../../icons/image-removebg-preview.png';
 import React from "react";
 import '../../App.css';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 function NavScrollExample(props) {
     const dispatch = useAuthDispatch() // read dispatch method from context
@@ -40,6 +39,18 @@ function NavScrollExample(props) {
 
     const signUpMenuItem = () => {
         return <Nav.Link href="/signup">Sign Up</Nav.Link>
+    }
+
+    const myTicketsMenuItem = () => {
+        return <Nav.Link href="/mytickets">My tickets</Nav.Link>
+    }
+
+    const myTasksMenuItem = () => {
+        return <Nav.Link href="/mytasks">My tasks</Nav.Link>
+    }
+
+    const eventMenuItem = () => {
+        return <Nav.Link href="/event">Event</Nav.Link>
     }
 
     const logOutMenuItem = () => {
@@ -76,6 +87,25 @@ function NavScrollExample(props) {
                         {
                             user &&
                             <>
+                                {
+                                  user.userType === 'USER' &&
+                                    <>
+                                        {
+                                            myTicketsMenuItem()
+                                        }
+                                    </>
+                                }
+                                {
+                                    user.userType === 'ADMIN' &&
+                                    <>
+                                        {
+                                            eventMenuItem()
+                                        }
+                                        {
+                                            myTasksMenuItem()
+                                        }
+                                    </>
+                                }
                                 {
                                     logOutMenuItem()
                                 }

@@ -6,26 +6,9 @@ import NavScrollExample from "./views/menu/NavScrollExample";
 import {AuthProvider} from "./context";
 import Home from "./views/home/Home";
 import SignUp from "./views/signup/SignUp";
+import Event from "./views/home/components/Event";
 
 const App = () => {
-
-    const [groups, setGroups] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);
-
-        fetch('api/user/all')
-            .then(response => response.json())
-            .then(data => {
-                setGroups(data);
-                setLoading(false);
-            })
-    }, []);
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
 
     const renderNotImplemented = () => {
         return <div>Not implemented</div>
@@ -40,6 +23,7 @@ const App = () => {
                         <Route path="/" element={<Home/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/signup" element={<SignUp/>}/>
+                        <Route path="/event/:id" element={<Event/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>

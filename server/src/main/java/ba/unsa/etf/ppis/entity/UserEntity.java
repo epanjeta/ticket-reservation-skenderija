@@ -3,6 +3,7 @@ package ba.unsa.etf.ppis.entity;
 import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import ba.unsa.etf.ppis.constants.UserType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.ZonedDateTime;
 
@@ -89,5 +90,9 @@ public class UserEntity {
 
     public void setVerified(boolean verified) {
         this.verified = verified;
+    }
+
+    public boolean comparePasswords(@NotNull String password1) {
+        return password1.equals(password);
     }
 }

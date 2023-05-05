@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import {FormControl, FormGroup, FormLabel, Button, } from 'react-bootstrap'
 import './Login.css'
 import {loginUser, useAuthDispatch} from "../../context";
 import {useNavigate} from "react-router-dom";
@@ -8,50 +7,29 @@ import {
     MDBContainer,
     MDBRow,
     MDBCol,
-    MDBIcon,
     MDBInput
 }
     from 'mdb-react-ui-kit';
 import mainLogo from'../../icons/image-removebg-preview.png';
 
-const Login = (props) => {
+const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const dispatch = useAuthDispatch()
     const handleSubmit = (e) => {
         e.preventDefault()
-        loginUser(dispatch, {email, password}).then(() => {
-            navigate('/');
-            window.location.reload();
+        loginUser(dispatch, {email, password}).then(data => {
+            if (!data.errors) {
+                navigate('/');
+                window.location.reload();
+            } else {
+                console.info(data.errors[0])
+            }
         })
     }
 
-    return (
-        /*<div className="Login">
-            <form onSubmit={handleSubmit}>
-                <FormGroup controlId="email" bsSize="large">
-                    <FormLabel>User Name</FormLabel>
-                    <FormControl
-                        autoFocus
-                        type="text"
-                        value={userName}
-                        onChange={e => setUserName(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup controlId="password" bsSize="large">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        type="password"
-                    />
-                </FormGroup>
-                <Button block bsSize="large"
-                        type="submit">Login</Button>
-            </form>
-        </div>*/
-    <MDBContainer fluid>
+    return (<MDBContainer fluid>
         <MDBRow>
             <MDBCol sm='6'>
                 <div className='d-flex flex-row ps-5 pt-5'>

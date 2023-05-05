@@ -8,6 +8,8 @@ public class ApiResponseMessages {
 
     // successful
     public static final String ALL_USERS_FOUND = "Successfully found all users";
+    public static final String ALL_EVENTS_FOUND = "Successfully found all events";
+    public static final String EVENT_FOUND = "Successfully found event";
     public static final String USER_WAS_FOUND = "Successfully found the user with provided information";
     public static final String USER_WAS_VERIFIED = "The user was verified";
     public static final String USER_CREATED = "The user was successfully created!";
