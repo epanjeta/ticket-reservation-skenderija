@@ -24,7 +24,7 @@ const Login = () => {
                 navigate('/');
                 window.location.reload();
             } else {
-                console.info(data.errors[0])
+                alert(data.errors[0])
             }
         })
     }

@@ -44,6 +44,7 @@ public class ApiResponseMessages {
 
 
     // wrong data
+    public static final String USER_ALREADY_EXISTS = "The user with this e-mail already exists";
     public static final String COUNTRY_DOES_NOT_EXISTS = "The provided county does not exist";
     public static final String CITY_DOES_NOT_EXISTS = "The provided city does not exist";
     public static final String CITY_DOES_NOT_MATCH_THE_COUNTRY = "The provided city does not match the provided country";
@@ -60,7 +61,7 @@ public class ApiResponseMessages {
     public static final String EMAIL_TOO_LONG = "The provided email is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
     public static final String CITY_NAME_TOO_LONG = "The provided city name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
     public static final String COUNTRY_NAME_TOO_LONG = "The provided county name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
-    public static final String FIRST_NAME_TOO_LONG = "The provided first name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
+    public static final String FIRST_NAME_TOO_LONG = "The provided name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
     public static final String LAST_NAME_TOO_LONG = "The provided last name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
     public static final String NAME_TOO_LONG = "The provided account name is too long. Tha max allowed characters: " + MAX_NAME_LENGTH;
     public static final String DESCRIPTION_TO_LONG = "The provided description is too long. Tha max allowed characters: " + MAX_DESCRIPTION_LENGTH;

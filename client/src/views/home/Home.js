@@ -1,6 +1,7 @@
 import {user} from "../../context/Reducer";
 import {useEffect, useState} from "react";
 import EventCard from "./components/EventCard";
+import {get} from "../../methods";
 
 
 const Home = () => {
@@ -8,11 +9,10 @@ const Home = () => {
 
 
     useEffect( () => {
-        fetch('api/event/all')
-            .then(response => response.json())
+        get('api/event/all')
             .then(result => {
-                setEvents(result)
-            })
+                setEvents(result);
+            });
     }, [])
 
 

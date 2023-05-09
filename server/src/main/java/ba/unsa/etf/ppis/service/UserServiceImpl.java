@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired protected UserRepository userRepository;
+    @Autowired protected EmailService emailService;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -39,4 +40,40 @@ public class UserServiceImpl implements UserService{
         return userEntity;
     }
 
+    @Override
+    public UserDTO verifyUser(String email, String code) {
+        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
+        if (userEntity.isVerified()) {
+            throw new NotValidException(ApiResponseMessages.USER_IS_ALREADY_VERIFIED);
+        }
+        if (!code.equals(userEntity.getCode())) {
+            throw new NotValidException(ApiResponseMessages.WRONG_VERIFICATION_CODE);
+        }
+        userEntity.setVerified(true);
+        userRepository.save(userEntity);
+        return getUserByEmail(email);
+    }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        return UserMapper.mapToProjection(getUserEntityByEmail(email));
+    }
+
+    @Override
+    public void createUser(UserDTO userDTO) {
+        if (userRepository.findUserEntityByEmail(userDTO.getEmail()) != null) {
+            throw new NotValidException(ApiResponseMessages.USER_ALREADY_EXISTS);
+        }
+        UserEntity userEntity = UserMapper.mapToEntity(userDTO, null);
+        userEntity.setVerified(false);
+        setCodeAndSend(userEntity);
+        UserMapper.mapToProjection(userRepository.save(userEntity));
+    }
+
+    private void setCodeAndSend(UserEntity userEntity) {
+        String code = UserMapper.getRandomCode();
+        userEntity.setCode(code);
+
+        emailService.sendEmail("Verification code", "Your verification code is " +  code, userEntity);
+    }
 }

@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface UserService {
     List<UserDTO> getAllUsers();
-
     UserDTO getUserByEmailAndPassword(String email, String oldPassword);
-
     UserEntity getUserEntityByEmail(String email);
+    UserDTO verifyUser(String email, String code);
+    UserDTO getUserByEmail(String email);
+    void createUser(UserDTO userDTO);
 }

@@ -10,10 +10,6 @@ import Event from "./views/home/components/Event";
 
 const App = () => {
 
-    const renderNotImplemented = () => {
-        return <div>Not implemented</div>
-    }
-
     return (
         <AuthProvider>
             <div className="App">

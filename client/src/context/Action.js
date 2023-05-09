@@ -1,18 +1,13 @@
 // Context/actions.js
 
 
+import {put} from "../methods";
+
 export async function loginUser(dispatch, loginPayload) {
     let data = undefined;
     try {
         dispatch({ type: 'REQUEST_LOGIN' });
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginPayload)
-        };
-
-        let response = await fetch('api/user/authenticate', requestOptions);
-        let result =  await response.json();
+        let result = put('api/user/authenticate', loginPayload)
 
         data = result;
         console.info(data)
