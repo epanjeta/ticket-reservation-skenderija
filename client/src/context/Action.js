@@ -7,7 +7,7 @@ export async function loginUser(dispatch, loginPayload) {
     let data = undefined;
     try {
         dispatch({ type: 'REQUEST_LOGIN' });
-        let result = put('api/user/authenticate', loginPayload)
+        let result = await put('api/user/authenticate', loginPayload)
 
         data = result;
         console.info(data)
