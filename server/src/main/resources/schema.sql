@@ -32,3 +32,14 @@ create table ppis.event
     FOREIGN KEY (picture)
         REFERENCES ppis.image (id)
 );
+
+create table ppis.availabletickets
+(
+    id SERIAL PRIMARY KEY,
+    event INT,
+    parter INT,
+    vip INT,
+    backstage INT,
+    FOREIGN KEY (event)
+        REFERENCES ppis.event (id)
+);

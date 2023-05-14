@@ -6,6 +6,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import TimePicker from "react-bootstrap-time-picker";
 
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 const CreateEvent = () => {
 
     const [name, setName] = useState('')
@@ -14,6 +17,10 @@ const CreateEvent = () => {
     const [date, setDate] = useState('')
     const [time, setTime] = useState(null)
     const [image, setImage] = useState(null)
+
+    const [parter, setParter] = useState(1000);
+    const [vip, setVip] = useState(100);
+    const [backstage, setBackstage] = useState(50);
 
     const navigate = useNavigate();
 
@@ -61,9 +68,24 @@ const CreateEvent = () => {
                     }
                 }).then(response2 => response2.json()
                 .then(data2 => {
-                    navigate({
-                        pathname: "/"
-                    })
+                    const eventId = data2.id;
+                    let availableticketsdata = {
+                        "eventId":eventId,
+                        "parterTickets":parter,
+                        "vipTickets":vip,
+                        "backstageTickets":backstage
+                    }
+                    fetch('/api/availabletickets/create', {
+                        method: 'POST',
+                        body: JSON.stringify(availableticketsdata),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }).then(
+                        navigate({
+                            pathname: "/"
+                        })
+                    )
                 }))
             }))
         }
@@ -72,6 +94,8 @@ const CreateEvent = () => {
         }
     }
 
+    
+
     const handleTime = (selectedTime) => {
         setTime(selectedTime)
       }
@@ -79,14 +103,20 @@ const CreateEvent = () => {
     return <>{
 
         <div className="container mt-3">
+
+            <h1>Add a New Event</h1>
+
             <Form className="mx-3 my-3">
 
+                <Row>
+                <Col>
                 <Form.Group className="mb-4">
                         <Form.Label>Event Name</Form.Label>
                         <Form.Control type="text"
                         onChange = {e => setName(e.target.value)} />
                 </Form.Group>
-
+                </Col>
+                <Col>
                 <Form.Group className="mb-4">
                     <Form.Label>Event Type</Form.Label>
                     <Form.Select aria-label="Default select example"
@@ -97,20 +127,23 @@ const CreateEvent = () => {
                                 <option value="Seminar">Seminar</option>
                     </Form.Select>
                 </Form.Group>
+                </Col>
+                </Row>
 
                 <Form.Group className="mb-4">
                     <Form.Label>Event Description</Form.Label>
                     <Form.Control as="textarea" rows={3} 
                     onChange = {e => setDescription(e.target.value)}/>
                 </Form.Group>
-
+                <Row>
+                <Col>
                 <Form.Group className="mb-4">
                     <Form.Label>Select Date</Form.Label>
-                    <Form.Control type="date" name="dob" placeholder="Date of Birth" 
+                    <Form.Control type="date" name="dob"
                     onChange = {e => setDate(e.target.value)}/>
                 </Form.Group>
-
-
+                </Col>
+                <Col>
                 <Form.Group className="mb-4">
                     <Form.Label>Select Time</Form.Label>
                     <TimePicker
@@ -122,6 +155,34 @@ const CreateEvent = () => {
                         value={time}                     
                 />
                 </Form.Group>
+                </Col>
+                </Row>
+                <Row>
+                <Col>
+                <Form.Group className="mb-4">
+                    <Form.Label>Select Number of Parter Tickets</Form.Label>
+                    <Form.Control type="number"
+                    value={parter}
+                    onChange = {e => setParter(e.target.value)}/>
+                </Form.Group>
+                </Col>
+                <Col>
+                <Form.Group className="mb-4">
+                    <Form.Label>Select Number of VIP Tickets</Form.Label>
+                    <Form.Control type="number"
+                    value={vip}
+                    onChange = {e => setVip(e.target.value)}/>
+                </Form.Group>
+                </Col>
+                <Col>
+                <Form.Group className="mb-4">
+                    <Form.Label>Select Number of Backstage Tickets</Form.Label>
+                    <Form.Control type="number"
+                    value={backstage}
+                    onChange = {e => setBackstage(e.target.value)}/>
+                </Form.Group>
+                </Col>
+                </Row>
 
                 <Form.Group  className="mb-4">
                     <Form.Label>Image</Form.Label>

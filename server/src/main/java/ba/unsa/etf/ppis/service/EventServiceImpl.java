@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService{
@@ -39,4 +40,12 @@ public class EventServiceImpl implements EventService{
         ImageEntity image = imageService.getImageEntityWithId(newEventDTO.getImageId());
         return EventMapper.toProjection(eventRepository.save(EventMapper.toEntity(newEventDTO, image)), imageService.getImageWithId(image.getId()));
     }
+
+    @Override
+    public EventEntity getEventEntity(int id) {
+        EventEntity eventEntity = eventRepository.findById(id);
+        return eventEntity;
+    }
+
+
 }
