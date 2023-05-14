@@ -30,4 +30,13 @@ public class ImageServiceImpl implements ImageService {
         Optional<ImageEntity> imageData = imageRepository.findById(id);
         return ImageUtils.decompressImage(imageData.get().getImageData());
     }
+
+    @Override
+    public ImageEntity getImageEntityWithId(Long id) {
+        Optional<ImageEntity> imageData = imageRepository.findById(id);
+        if(imageData.isPresent()) return imageData.get();
+        else return null;
+    }
+
+
 }

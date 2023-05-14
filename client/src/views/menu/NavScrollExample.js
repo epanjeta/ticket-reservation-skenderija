@@ -53,6 +53,10 @@ function NavScrollExample(props) {
         return <Nav.Link href="/event">Event</Nav.Link>
     }
 
+    const newEventMenuItem = () => {
+        return <Nav.Link href="/new-event">Create Event</Nav.Link>
+    }
+
     const logOutMenuItem = () => {
         return <NavDropdown title="Account" id="navbarScrollingDropdown">
             <NavDropdown.Item onClick={handleLogout}>
@@ -98,6 +102,9 @@ function NavScrollExample(props) {
                                 {
                                     user.userType === 'ADMIN' &&
                                     <>
+                                        {
+                                            newEventMenuItem()
+                                        }
                                         {
                                             eventMenuItem()
                                         }

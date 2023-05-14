@@ -7,6 +7,7 @@ import {AuthProvider} from "./context";
 import Home from "./views/home/Home";
 import SignUp from "./views/signup/SignUp";
 import Event from "./views/home/components/Event";
+import CreateEvent from './views/home/components/CreateEvent';
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/signup" element={<SignUp/>}/>
                         <Route path="/event/:id" element={<Event/>}/>
+                        <Route path='/new-event' element={<CreateEvent/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>

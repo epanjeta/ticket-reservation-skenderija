@@ -2,6 +2,7 @@ package ba.unsa.etf.ppis.controller;
 
 import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.dto.EventDTO;
+import ba.unsa.etf.ppis.dto.NewEventDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
 import ba.unsa.etf.ppis.service.EventService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,5 +41,10 @@ public class EventController {
     @GetMapping("/{id}")
     public ResponseEntity<EventDTO> getEvent(@PathVariable("id") int id) {
         return new ResponseEntity<>(eventService.getEvent(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<EventDTO> saveEvent(@RequestBody NewEventDTO newEventDTO) {
+        return new ResponseEntity<>(eventService.saveEvent(newEventDTO), HttpStatus.OK);
     }
 }

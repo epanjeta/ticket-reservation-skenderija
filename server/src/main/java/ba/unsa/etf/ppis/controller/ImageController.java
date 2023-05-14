@@ -18,8 +18,8 @@ public class ImageController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping("/upload")
-    public void uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        imageService.uploadImage(file);
+    public ResponseEntity<Long> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(imageService.uploadImage(file).getId(), HttpStatus.OK) ;
     }
 
     @GetMapping("/download/{fileId}")
