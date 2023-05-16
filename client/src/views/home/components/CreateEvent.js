@@ -61,7 +61,7 @@ const CreateEvent = () => {
                         "description": description,
                         "date": date,
                         "type": type,
-                        "seconds": "34200",
+                        "seconds": time,
                         "pictureId": imageDbIdInt,
                         "tickets": [
                             {
