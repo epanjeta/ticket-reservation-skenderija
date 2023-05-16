@@ -6,6 +6,24 @@ INSERT INTO ppis.image (name, type, imagedata) VALUES ('dzenanweb2.jpg', 'image/
 INSERT INTO ppis.event (title, type, description, date, picture) VALUES ('Dzenan Loncarevic', 'KONCERT', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-02 17:00:00.000000', 1);
 
 
+INSERT INTO ppis.ticket_type (ticket_type, ticket_price)
+VALUES ('PARTER', 10);
+INSERT INTO ppis.ticket_type (ticket_type, ticket_price)
+VALUES ('VIP', 100);
+INSERT INTO ppis.ticket_type (ticket_type, ticket_price)
+VALUES ('BACKSTAGE', 50);
+
+INSERT INTO ppis.availabletickets (event, ticket_type, available_tickets, total_tickets)
+VALUES (1, 1, 1000, 1000);
+INSERT INTO ppis.availabletickets (event, ticket_type, available_tickets, total_tickets)
+VALUES (1, 2, 500, 500);
+INSERT INTO ppis.availabletickets (event, ticket_type, available_tickets, total_tickets)
+VALUES (1, 3, 200, 200);
+
+
+
+
+
 
 
 

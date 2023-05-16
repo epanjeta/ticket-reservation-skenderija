@@ -22,6 +22,10 @@ const CreateEvent = () => {
     const [vip, setVip] = useState(100);
     const [backstage, setBackstage] = useState(50);
 
+    const [parterPrice, setParterPrice] = useState(50);
+    const [vipPrice, setVipPrice] = useState(50);
+    const [backstagePrice, setBackstagePrice] = useState(50);
+
     const navigate = useNavigate();
 
     const validateStates = () => {
@@ -65,7 +69,7 @@ const CreateEvent = () => {
                                 "totalTickets": parter,
                                 "ticketTypeDTO": {
                                     "ticketType": "PARTER",
-                                    "ticketPrice": 50
+                                    "ticketPrice": parterPrice
                                 },
                             },
                             {
@@ -73,7 +77,7 @@ const CreateEvent = () => {
                                 "totalTickets": vip,
                                 "ticketTypeDTO": {
                                     "ticketType": "VIP",
-                                    "ticketPrice": 50
+                                    "ticketPrice": vipPrice
                                 }
                             },
                             {
@@ -81,7 +85,7 @@ const CreateEvent = () => {
                                 "totalTickets": backstage,
                                 "ticketTypeDTO": {
                                     "ticketType": "BACKSTAGE",
-                                    "ticketPrice": 50
+                                    "ticketPrice": backstagePrice
                                 },
                             }
                         ]
@@ -191,6 +195,33 @@ const CreateEvent = () => {
                                             <Form.Control type="number"
                                                           value={backstage}
                                                           onChange={e => setBackstage(e.target.value)}/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Select Price of Parter Tickets</Form.Label>
+                                            <Form.Control type="number"
+                                                          value={parterPrice}
+                                                          onChange={e => setParterPrice(e.target.value)}/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Select Price of VIP Tickets</Form.Label>
+                                            <Form.Control type="number"
+                                                          value={vipPrice}
+                                                          onChange={e => setVipPrice(e.target.value)}/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Select Price of Backstage Tickets</Form.Label>
+                                            <Form.Control type="number"
+                                                          value={backstagePrice}
+                                                          onChange={e => setBackstagePrice(e.target.value)}/>
                                         </Form.Group>
                                     </Col>
                                 </Row>
