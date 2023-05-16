@@ -33,13 +33,22 @@ create table ppis.event
         REFERENCES ppis.image (id)
 );
 
+create table ppis.ticket_type
+(
+    id SERIAL PRIMARY KEY,
+    ticket_type VARCHAR(200)  NOT NULL,
+    ticket_price  VARCHAR(200)  NOT NULL
+);
+
 create table ppis.availabletickets
 (
     id SERIAL PRIMARY KEY,
     event INT,
-    parter INT,
-    vip INT,
-    backstage INT,
+    ticket_type INT,
+    available_tickets INT NOT NULL DEFAULT 0,
+    total_tickets INT NOT NULL DEFAULT 0,
     FOREIGN KEY (event)
-        REFERENCES ppis.event (id)
+        REFERENCES ppis.event (id),
+    FOREIGN KEY (ticket_type)
+        REFERENCES ppis.ticket_type (id)
 );

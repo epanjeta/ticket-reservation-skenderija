@@ -2,7 +2,6 @@ package ba.unsa.etf.ppis.mappers;
 
 import ba.unsa.etf.ppis.constants.EventType;
 import ba.unsa.etf.ppis.dto.EventDTO;
-import ba.unsa.etf.ppis.dto.NewEventDTO;
 import ba.unsa.etf.ppis.entity.EventEntity;
 import ba.unsa.etf.ppis.entity.ImageEntity;
 
@@ -34,7 +33,7 @@ public class EventMapper {
         return projection;
     }
 
-    public static EventEntity toEntity(NewEventDTO newEventDTO, ImageEntity image){
+    public static EventEntity toEntity(EventDTO newEventDTO, ImageEntity image){
         if (newEventDTO == null){
             return null;
         }
@@ -50,12 +49,7 @@ public class EventMapper {
 
         entity.setDate(ZonedDateTime.from(zonedDateTime));
         entity.setPicture(image);
-        if(Objects.equals(newEventDTO.getType(), "Koncert"))
-            entity.setType(EventType.KONCERT);
-        if(Objects.equals(newEventDTO.getType(), "Sajam"))
-            entity.setType(EventType.SAJAM);
-        if(Objects.equals(newEventDTO.getType(), "Seminar"))
-            entity.setType(EventType.SEMINAR);
+        entity.setType(newEventDTO.getType());
         return entity;
     }
 }

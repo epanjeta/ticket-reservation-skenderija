@@ -12,18 +12,19 @@ public class AvailableTicketsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "event", referencedColumnName = "id")
     private EventEntity event;
 
-    @Column(name = "parter")
-    private Integer parterTickets;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_type", referencedColumnName = "id")
+    private TicketTypeEntity ticketType;
 
-    @Column(name = "vip")
-    private Integer vipTickets;
+    @Column(name = "available_tickets", nullable = false)
+    private Integer availableTickets;
 
-    @Column(name = "backstage")
-    private Integer backstageTickets;
+    @Column(name = "total_tickets", nullable = false)
+    private Integer totalTickets;
 
     public Integer getId() {
         return id;
@@ -41,27 +42,27 @@ public class AvailableTicketsEntity {
         this.event = event;
     }
 
-    public Integer getParterTickets() {
-        return parterTickets;
+    public TicketTypeEntity getTicketType() {
+        return ticketType;
     }
 
-    public void setParterTickets(Integer parterTickets) {
-        this.parterTickets = parterTickets;
+    public void setTicketType(TicketTypeEntity ticketType) {
+        this.ticketType = ticketType;
     }
 
-    public Integer getVipTickets() {
-        return vipTickets;
+    public Integer getAvailableTickets() {
+        return availableTickets;
     }
 
-    public void setVipTickets(Integer vipTickets) {
-        this.vipTickets = vipTickets;
+    public void setAvailableTickets(Integer availableTickets) {
+        this.availableTickets = availableTickets;
     }
 
-    public Integer getBackstageTickets() {
-        return backstageTickets;
+    public Integer getTotalTickets() {
+        return totalTickets;
     }
 
-    public void setBackstageTickets(Integer backstageTickets) {
-        this.backstageTickets = backstageTickets;
+    public void setTotalTickets(Integer totalTickets) {
+        this.totalTickets = totalTickets;
     }
 }

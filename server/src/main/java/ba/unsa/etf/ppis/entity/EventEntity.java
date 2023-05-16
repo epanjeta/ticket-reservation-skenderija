@@ -6,6 +6,7 @@ import ba.unsa.etf.ppis.constants.EventType;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "event" )
@@ -31,6 +32,9 @@ public class EventEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "picture", referencedColumnName = "id")
     private ImageEntity picture;
+
+    @OneToMany(mappedBy="event")
+    private List<AvailableTicketsEntity> availableTicketsEntities;
 
     public Integer getId() {
         return id;
@@ -78,5 +82,13 @@ public class EventEntity {
 
     public void setPicture(ImageEntity picture) {
         this.picture = picture;
+    }
+
+    public List<AvailableTicketsEntity> getAvailableTicketsEntities() {
+        return availableTicketsEntities;
+    }
+
+    public void setAvailableTicketsEntities(List<AvailableTicketsEntity> availableTicketsEntities) {
+        this.availableTicketsEntities = availableTicketsEntities;
     }
 }

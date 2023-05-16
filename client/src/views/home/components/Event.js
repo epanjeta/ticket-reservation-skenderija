@@ -19,9 +19,9 @@ const Event = () => {
     const renderTicket = (ticket) => {
       return <div className="card mb-3">
               <div className="ticket">
-                  <h5 className={`ticketText ${ticket.available ? '' : 'disabled'}`}>{ticket.type}</h5>
-                  <p className={`ticketText ${ticket.available ? '' : 'disabled'}`}>{ticket.price + 'BAM'}</p>
-                  <p className={`ticketText ${ticket.available ? '' : 'disabled'}`}>{ticket.numberLeft + '/' + ticket.numberTotal}</p>
+                  <h5 className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.ticketTypeDTO.ticketType}</h5>
+                  <p className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.ticketTypeDTO.ticketPrice + 'BAM'}</p>
+                  <p className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.availableTickets + '/' + ticket.totalTickets}</p>
               </div>
           </div>
     }

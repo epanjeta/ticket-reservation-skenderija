@@ -1,44 +1,43 @@
 package ba.unsa.etf.ppis.dto;
 
-public class AvailableTicketsDTO {
+import java.io.Serializable;
 
-    private Integer eventId;
+public class AvailableTicketsDTO implements Serializable {
 
-    private Integer parterTickets;
+    private Integer id;
+    private TicketTypeDTO ticketTypeDTO;
+    private Integer availableTickets;
+    private Integer totalTickets;
 
-    private Integer vipTickets;
-
-    private Integer backstageTickets;
-
-    public Integer getEventId() {
-        return eventId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getParterTickets() {
-        return parterTickets;
+    public TicketTypeDTO getTicketTypeDTO() {
+        return ticketTypeDTO;
     }
 
-    public void setParterTickets(Integer parterTickets) {
-        this.parterTickets = parterTickets;
+    public void setTicketTypeDTO(TicketTypeDTO ticketTypeDTO) {
+        this.ticketTypeDTO = ticketTypeDTO;
     }
 
-    public Integer getVipTickets() {
-        return vipTickets;
+    public Integer getAvailableTickets() {
+        return availableTickets;
     }
 
-    public void setVipTickets(Integer vipTickets) {
-        this.vipTickets = vipTickets;
+    public void setAvailableTickets(Integer availableTickets) {
+        this.availableTickets = availableTickets;
     }
 
-    public Integer getBackstageTickets() {
-        return backstageTickets;
+    public Integer getTotalTickets() {
+        return totalTickets;
     }
 
-    public void setBackstageTickets(Integer backstageTickets) {
-        this.backstageTickets = backstageTickets;
+    public void setTotalTickets(Integer totalTickets) {
+        this.totalTickets = totalTickets;
     }
 }

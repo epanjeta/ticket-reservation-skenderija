@@ -8,12 +8,16 @@ import java.util.List;
 
 public class EventDTO implements Serializable {
     private int id;
+
+    private int seconds;
+    private Long pictureId;
     private String title;
     private String date;
     private String description;
     private EventType type;
-    private List<TicketDTO> tickets = new ArrayList<>();
+    private List<AvailableTicketsDTO> tickets = new ArrayList<>();
     private byte[] picture;
+
     public int getId() {
         return id;
     }
@@ -62,11 +66,27 @@ public class EventDTO implements Serializable {
         this.picture = picture;
     }
 
-    public List<TicketDTO> getTickets() {
+    public List<AvailableTicketsDTO> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<TicketDTO> tickets) {
+    public void setTickets(List<AvailableTicketsDTO> tickets) {
         this.tickets = tickets;
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 }

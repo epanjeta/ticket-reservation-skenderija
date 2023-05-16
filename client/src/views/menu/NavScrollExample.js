@@ -106,9 +106,6 @@ function NavScrollExample(props) {
                                             newEventMenuItem()
                                         }
                                         {
-                                            eventMenuItem()
-                                        }
-                                        {
                                             myTasksMenuItem()
                                         }
                                     </>
