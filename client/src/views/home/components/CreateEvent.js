@@ -15,7 +15,7 @@ const CreateEvent = () => {
     const [type, setType] = useState('')
     const [description, setDescription] = useState('')
     const [date, setDate] = useState('')
-    const [time, setTime] = useState(null)
+    const [time, setTime] = useState(0)
     const [image, setImage] = useState(null)
 
     const [parter, setParter] = useState(1000);
@@ -28,7 +28,7 @@ const CreateEvent = () => {
 
     const navigate = useNavigate();
 
-    const validateStates = () => {
+    function validateStates  ()  {
         let errors = "";
         if (name === "") errors = errors.concat("Please provide event name\n");
         if (type === "") errors = errors.concat("Please provide event type\n");
@@ -41,68 +41,87 @@ const CreateEvent = () => {
 
     const handleSubmit = (e) => {
 
-        let errors = validateStates();
+        let errors =  validateStates();
         if (errors === "") {
 
             const imagedata = new FormData()
             imagedata.append('image', image)
 
-            fetch('/api/image/upload', {
+            let availableBody = {
+                "date":date
+            }
+
+            fetch('/api/event/available', {
                 method: 'POST',
-                body: imagedata,
-            }).then(response => response.json()
-                .then(data => {
-                    console.log("Id nove slike je ");
-                    let imageDbId = data;
-                    console.log(imageDbId);
-                    const imageDbIdInt = parseInt(imageDbId)
-                    let payload = {
-                        "title": name,
-                        "description": description,
-                        "date": date,
-                        "type": type,
-                        "seconds": time,
-                        "pictureId": imageDbIdInt,
-                        "tickets": [
-                            {
-                                "availableTickets": parter,
-                                "totalTickets": parter,
-                                "ticketTypeDTO": {
-                                    "ticketType": "PARTER",
-                                    "ticketPrice": parterPrice
-                                },
-                            },
-                            {
-                                "availableTickets": vip,
-                                "totalTickets": vip,
-                                "ticketTypeDTO": {
-                                    "ticketType": "VIP",
-                                    "ticketPrice": vipPrice
-                                }
-                            },
-                            {
-                                "availableTickets": backstage,
-                                "totalTickets": backstage,
-                                "ticketTypeDTO": {
-                                    "ticketType": "BACKSTAGE",
-                                    "ticketPrice": backstagePrice
-                                },
-                            }
-                        ]
-                    }
-                    fetch('/api/event/create', {
-                        method: 'POST',
-                        body: JSON.stringify(payload),
-                        headers: {
-                            'Content-Type': 'application/json',
+                body: JSON.stringify(availableBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                response => response.json()
+                .then( data => {
+                        if (data.available == false) alert("This date is not available!");
+                        else{
+                            fetch('/api/image/upload', {
+                                method: 'POST',
+                                body: imagedata,
+                            }).then(response => response.json()
+                                .then(data => {
+                                    let imageDbId = data;
+                                    const imageDbIdInt = parseInt(imageDbId)
+                                    let payload = {
+                                        "title": name,
+                                        "description": description,
+                                        "date": date,
+                                        "type": type,
+                                        "seconds": time,
+                                        "pictureId": imageDbIdInt,
+                                        "tickets": [
+                                            {
+                                                "availableTickets": parter,
+                                                "totalTickets": parter,
+                                                "ticketTypeDTO": {
+                                                    "ticketType": "PARTER",
+                                                    "ticketPrice": parterPrice
+                                                },
+                                            },
+                                            {
+                                                "availableTickets": vip,
+                                                "totalTickets": vip,
+                                                "ticketTypeDTO": {
+                                                    "ticketType": "VIP",
+                                                    "ticketPrice": vipPrice
+                                                }
+                                            },
+                                            {
+                                                "availableTickets": backstage,
+                                                "totalTickets": backstage,
+                                                "ticketTypeDTO": {
+                                                    "ticketType": "BACKSTAGE",
+                                                    "ticketPrice": backstagePrice
+                                                },
+                                            }
+                                        ]
+                                    }
+                                    fetch('/api/event/create', {
+                                        method: 'POST',
+                                        body: JSON.stringify(payload),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        }
+                                    }).then(response2 => response2.json()
+                                        .then(data2 => {
+                                            navigate({
+                                                pathname: "/"
+                                            })
+                                        }))
+                                }))
                         }
-                    }).then(response2 => response2.json()
-                        .then(data2 => {
-                            navigate({
-                                pathname: "/"
-                            })
-                        }))
-                }))
+                    }
+                )
+            )
+
+            
                 }
                 else
                     {

@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.dto.DateDTO;
 import ba.unsa.etf.ppis.dto.EventDTO;
 import ba.unsa.etf.ppis.entity.EventEntity;
 import ba.unsa.etf.ppis.entity.ImageEntity;
@@ -13,6 +14,8 @@ import ba.unsa.etf.ppis.repository.TicketTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +58,17 @@ public class EventServiceImpl implements EventService{
         return getEvent(event.getId());
     }
 
+    @Override
+    public DateDTO checkIfAvailable(DateDTO date) {
+        List<EventEntity> events = eventRepository.findAll();
+        DateDTO isAvailable = new DateDTO(date.getDate(), true);
 
+        for (int i=0; i<events.size(); i++){
+            ZonedDateTime date1 = events.get(i).getDate();
+            if(date1.getYear() == date.getDate().getYear()
+            && date1.getMonthValue() == date.getDate().getMonthValue()
+            && date1.getDayOfMonth() == date.getDate().getDayOfMonth()) isAvailable.setAvailable(false);
+        }
+        return isAvailable;
+    }
 }
