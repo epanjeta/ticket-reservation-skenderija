@@ -1,10 +1,15 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {user} from "../../../context/Reducer";
 import './EventCard.css';
 
 const Event = () => {
     const params = useParams();
     const [event, setEvent] = useState({});
+    //const [ticketClick, setTicketClick] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (params && params.id) {
@@ -12,9 +17,17 @@ const Event = () => {
                 .then(response => response.json())
                 .then(result => {
                     setEvent(result)
+                    console.log(event.tickets)
                 })
+            
         }
     }, [params])
+
+
+    const handleOnClick = (ticketId) => {
+        navigate(`/reserve/${params.id}/${ticketId}`);
+        window.location.reload();
+    }
 
     const renderTicket = (ticket) => {
       return <div className="card mb-3">
@@ -22,6 +35,7 @@ const Event = () => {
                   <h5 className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.ticketTypeDTO.ticketType}</h5>
                   <p className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.ticketTypeDTO.ticketPrice + 'BAM'}</p>
                   <p className={`ticketText ${ticket.availableTickets !== 0 ? '' : 'disabled'}`}>{ticket.availableTickets + '/' + ticket.totalTickets}</p>
+                  {user && user.userType === "USER" && <button type="button" class="btn btn-dark" onClick = {() => handleOnClick(ticket.id)}>Reserve</button>}
               </div>
           </div>
     }

@@ -2,6 +2,12 @@
 drop schema ppis cascade;
 create schema ppis;
 
+create table ppis.location
+(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
 create table ppis.user
 (
     id        SERIAL PRIMARY KEY,
@@ -10,8 +16,15 @@ create table ppis.user
     user_type VARCHAR(50)        NOT NULL,
     name      VARCHAR(50),
     code      VARCHAR(6),
-    verified  BOOLEAN            NOT NULL DEFAULT FALSE
+    verified  BOOLEAN            NOT NULL DEFAULT FALSE,
+    location INT,
+    FOREIGN KEY (location)
+        REFERENCES ppis.location (id)
 );
+
+
+
+
 
 create table ppis.image
 (
@@ -51,4 +64,29 @@ create table ppis.availabletickets
         REFERENCES ppis.event (id),
     FOREIGN KEY (ticket_type)
         REFERENCES ppis.ticket_type (id)
+);
+
+create table ppis.ticket
+(
+    id SERIAL PRIMARY KEY,
+    status VARCHAR(50) NOT NULL,
+    event INT NOT NULL,
+    type INT NOT NULL,
+    userId INT NOT NULL,
+    FOREIGN KEY (event)
+        REFERENCES ppis.event (id),
+    FOREIGN KEY (type)
+        REFERENCES ppis.ticket_type (id),
+    FOREIGN KEY (userId)
+        REFERENCES ppis.user(id)
+
+);
+
+CREATE TABLE ppis.task
+(
+    id SERIAL PRIMARY KEY ,
+    location INT NOT NULL ,
+    ticket INT NOT NULL,
+    FOREIGN KEY (location) REFERENCES ppis.location (id),
+    FOREIGN KEY (ticket) REFERENCES ppis.ticket (id)
 );

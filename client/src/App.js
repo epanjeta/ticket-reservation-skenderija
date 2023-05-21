@@ -8,6 +8,9 @@ import Home from "./views/home/Home";
 import SignUp from "./views/signup/SignUp";
 import Event from "./views/home/components/Event";
 import CreateEvent from './views/home/components/CreateEvent';
+import ReserveTicket from './views/home/components/ReserveTicket';
+import MyTasks from './views/home/components/MyTasks';
+import MyTickets from './views/home/components/MyTickets';
 
 const App = () => {
 
@@ -22,6 +25,9 @@ const App = () => {
                         <Route path="/signup" element={<SignUp/>}/>
                         <Route path="/event/:id" element={<Event/>}/>
                         <Route path='/new-event' element={<CreateEvent/>}/>
+                        <Route path='/reserve/:eventId/:ticketTypeId' element={<ReserveTicket/>}/>
+                        <Route path='/mytickets' element={<MyTickets/>}/>
+                        <Route path='/mytasks' element={<MyTasks/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>

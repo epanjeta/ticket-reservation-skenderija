@@ -33,6 +33,10 @@ public class UserEntity {
     @Column(name = "verified", nullable = false)
     private boolean verified;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private LocationEntity location;
+
     public UserEntity() {
     }
 
@@ -94,5 +98,13 @@ public class UserEntity {
 
     public boolean comparePasswords(@NotNull String password1) {
         return password1.equals(password);
+    }
+
+    public LocationEntity getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
     }
 }

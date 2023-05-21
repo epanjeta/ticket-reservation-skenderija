@@ -9,4 +9,6 @@ public interface AvailableTicketsService {
 
     List<AvailableTicketsDTO> getAllTicketsForEvent(EventEntity event);
 
+    AvailableTicketsDTO getTicketsForEventByType(Integer ticketTypeId);
+
 }
