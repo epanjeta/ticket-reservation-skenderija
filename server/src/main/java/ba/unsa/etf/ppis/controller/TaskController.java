@@ -28,7 +28,7 @@ public class TaskController {
         return new ResponseEntity<>(taskService.createTask(taskDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping("/changeStatus")
+    @PutMapping("/changeStatus")
     public ResponseEntity<TaskDTO> finishTask(@RequestBody TaskDTO taskDTO){
         return new ResponseEntity<>(taskService.finishTask(taskDTO), HttpStatus.OK);
     }

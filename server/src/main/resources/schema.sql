@@ -90,6 +90,7 @@ CREATE TABLE ppis.task
     id SERIAL PRIMARY KEY ,
     location INT NOT NULL ,
     ticket INT NOT NULL,
+    status VARCHAR(50) NOT NULL,
     FOREIGN KEY (location) REFERENCES ppis.location (id),
     FOREIGN KEY (ticket) REFERENCES ppis.ticket (id)
 );

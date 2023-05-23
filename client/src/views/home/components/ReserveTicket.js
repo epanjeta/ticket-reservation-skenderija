@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {user} from "../../../context/Reducer";
-
+import './EventCard.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -187,9 +187,9 @@ const ReserveTicket = () => {
           </Col>
         </Form.Group>
                 
-        <Button variant="primary" onClick={e => handleSubmit(e)}>
+        <button onClick={handleSubmit} className="button-48">
                                 Next
-        </Button>
+        </button>
                 </Form>
             </div>
             

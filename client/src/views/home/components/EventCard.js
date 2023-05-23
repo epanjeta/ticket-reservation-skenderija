@@ -1,6 +1,5 @@
 import './EventCard.css';
 import {useNavigate} from "react-router-dom";
-import {Image} from "react-native";
 
 const EventCard = (props) => {
     const { event } = props;

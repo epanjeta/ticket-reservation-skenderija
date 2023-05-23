@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.TaskStatus;
 import ba.unsa.etf.ppis.constants.TicketStatus;
 import ba.unsa.etf.ppis.dto.TicketDTO;
 import ba.unsa.etf.ppis.entity.*;
@@ -80,6 +81,7 @@ public class TicketServiceImpl implements TicketService{
                 TaskEntity taskEntity = new TaskEntity();
                 taskEntity.setLocation(location);
                 taskEntity.setTicket(tickedEntitySaved);
+                taskEntity.setStatus(TaskStatus.IN_PROGRESS);
                 taskRepository.save(taskEntity);
                 UserEntity userEntity = userService.getAdminByLocation(location.getId());
                 emailService.sendEmail("New task!", "New task has been created!", userEntity);

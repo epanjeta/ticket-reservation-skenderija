@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.mappers;
 
+import ba.unsa.etf.ppis.constants.TaskStatus;
 import ba.unsa.etf.ppis.dto.TaskDTO;
 import ba.unsa.etf.ppis.dto.TicketDTO;
 import ba.unsa.etf.ppis.entity.*;
@@ -20,6 +21,7 @@ public class TaskMapper {
         entity.setId(projection.getId());
         entity.setLocation(LocationMapper.toEntity(projection.getLocation()));
         entity.setTicket(ticketEntity);
+        entity.setStatus(TaskStatus.IN_PROGRESS);
 
         return entity;
     }

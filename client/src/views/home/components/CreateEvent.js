@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-
+import './EventCard.css';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -251,9 +251,9 @@ const CreateEvent = () => {
                                                   onChange={e => setImage(e.target.files[0])}/>
                                 </Form.Group>
 
-                                <Button variant="primary" onClick={e => handleSubmit(e)}>
+                                <button className="button-48" onClick={handleSubmit}>
                                     Add
-                                </Button>
+                                </button>
                             </Form>
                         </div>
 
