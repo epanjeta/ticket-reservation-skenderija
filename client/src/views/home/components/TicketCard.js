@@ -2,10 +2,20 @@ import React from 'react'
 import {useEffect, useState} from "react";
 import {get} from "../../../methods";
 import Button from 'react-bootstrap/Button';
+import jsPDF from 'jspdf'
 
 const TicketCard = (props) => {
 
     const { ticket } = props;
+
+    const pdfGenerate = (e) => {
+        var doc = new jsPDF();
+        doc.text(20, 20, ticket.eventDTO.title);
+        doc.text(20, 40, ticket.eventDTO.date);
+        doc.text(20, 50, ticket.eventDTO.type);
+        
+        doc.save('ticket.pdf');
+    }
 
   return <>
   {
@@ -24,7 +34,7 @@ const TicketCard = (props) => {
                     </p>
                 </div>
                 <div className="col-md-6">
-                <Button variant="primary">
+                <Button variant="primary" onClick={e => pdfGenerate(e)}>
                                 {ticket.status}
                 </Button>
                 </div>

@@ -1,3 +1,4 @@
+INSERT INTO ppis."location" (id, name) VALUES (0, 'Undefined');
 INSERT INTO ppis."location" (name) VALUES ('Sarajevo');
 INSERT INTO ppis."location" (name) VALUES ('Tuzla');
 INSERT INTO ppis."location" (name) VALUES ('Mostar');

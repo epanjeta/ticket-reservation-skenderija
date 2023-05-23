@@ -96,7 +96,7 @@ public class TaskServiceImpl implements TaskService {
         ticketEntity.setId(reservations.getId());
         taskDTO.setLocation(null);
 
-        //emailService.sendEmail("Ticket is ready!", "Your ticket is ready and waiting for you on location " + taskDTO.getLocation().getName(), user);
+        emailService.sendEmail("Ticket is ready!", "Your ticket is ready and waiting for you on location " + taskDTO.getLocation().getName(), user);
         ticketService.changeTicketStatus(ticketEntity, TicketStatus.valueOf("READY"));
         taskRepository.delete(TaskMapper.toEntity(taskDTO, ticketEntity));
 
