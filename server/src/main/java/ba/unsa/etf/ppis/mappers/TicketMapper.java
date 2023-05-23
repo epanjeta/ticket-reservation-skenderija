@@ -20,6 +20,7 @@ public class TicketMapper {
         entity.setEvent(event);
         entity.setStatus(TicketStatus.valueOf(projection.getStatus()));
         entity.setType(ticketType);
+        entity.setLocation(LocationMapper.toEntity(projection.getLocation()));
         //entity.setUser(UserMapper.mapToEntity(projection.getUserDTO(), null));
         entity.setUser(user);
         return entity;
@@ -44,3 +45,5 @@ public class TicketMapper {
         return projection;
     }
 }
+
+

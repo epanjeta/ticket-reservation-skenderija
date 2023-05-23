@@ -31,7 +31,6 @@ const ReserveTicket = () => {
                 .then(response => response.json())
                 .then(result => {
                     setTicketType(result);
-                    console.log(ticketType.ticketTypeDTO.ticketType)
                 })
             
         }
@@ -62,6 +61,35 @@ const ReserveTicket = () => {
         return errors;
     }
 
+    const createTask = (payload) => {
+        if(isLocationEnabled){
+            console.log(location)
+            let task = {
+                "location":{
+                    "id":location,
+                    "name": ""
+                },
+                "ticket": payload
+            }
+            console.log(task)
+            fetch('/api/task/add', {
+                method: 'POST',
+                body: JSON.stringify(task),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                navigate({
+                    pathname: "/mytickets"
+                })
+            )
+        }else {
+            navigate({
+                pathname: "/mytickets"
+            })
+        }
+    }
+
     const handleSubmit = (e) => {
         let errors =  validateStates();
         if (errors === "") {
@@ -77,18 +105,19 @@ const ReserveTicket = () => {
                     "id":location
                 }
             }
-            console.log(payload);
             fetch('/api/ticket/add', {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then(
+            }).then( (response) => 
                 navigate({
                     pathname: "/mytickets"
                 })
             )
+            
+            
         }
         else{
             alert(errors);

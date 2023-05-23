@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -68,6 +70,14 @@ public class UserServiceImpl implements UserService{
         userEntity.setVerified(false);
         setCodeAndSend(userEntity);
         UserMapper.mapToProjection(userRepository.save(userEntity));
+    }
+
+    @Override
+    public UserEntity getAdminByLocation(Integer locationId) {
+        Optional<UserEntity> admin = userRepository.findAll().stream().filter(u -> u.getLocation()!= null && u.getLocation().getId() == locationId).collect(Collectors.toList()).stream().findFirst();
+        if(admin.isPresent())
+            return admin.get();
+        return null;
     }
 
     private void setCodeAndSend(UserEntity userEntity) {

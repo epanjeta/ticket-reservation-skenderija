@@ -73,6 +73,9 @@ create table ppis.ticket
     event INT NOT NULL,
     type INT NOT NULL,
     userId INT NOT NULL,
+    location INT,
+    FOREIGN KEY (location)
+        REFERENCES ppis.location (id),
     FOREIGN KEY (event)
         REFERENCES ppis.event (id),
     FOREIGN KEY (type)

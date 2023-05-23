@@ -3,6 +3,7 @@ package ba.unsa.etf.ppis.entity;
 import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import ba.unsa.etf.ppis.constants.TicketStatus;
 import ba.unsa.etf.ppis.constants.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,17 +18,24 @@ public class TicketEntity {
     @Column(name = "status", nullable = false)
     private TicketStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "event", referencedColumnName = "id")
     private EventEntity event;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "type", referencedColumnName = "id")
     private TicketTypeEntity type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userid", referencedColumnName = "id")
     private UserEntity user;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private LocationEntity location;
 
     public Integer getId() {
         return id;
@@ -67,5 +75,13 @@ public class TicketEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public LocationEntity getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
     }
 }

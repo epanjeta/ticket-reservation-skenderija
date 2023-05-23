@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.TicketStatus;
 import ba.unsa.etf.ppis.dto.TicketDTO;
 import ba.unsa.etf.ppis.entity.*;
 import ba.unsa.etf.ppis.mappers.TicketMapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketServiceImpl implements TicketService{
@@ -82,6 +84,24 @@ public class TicketServiceImpl implements TicketService{
 
         }
         availableTicketsRepository.save(availableTicketsEntity);
+        return ticketsDTO;
+    }
+
+    @Override
+    public void changeTicketStatus(TicketEntity ticketEntity, TicketStatus ticketStatus) {
+        ticketEntity.setStatus(ticketStatus);
+        ticketRepository.save(ticketEntity);
+    }
+
+    @Override
+    public List<TicketDTO> getAllTicketsByUserId(Integer id) {
+        List<TicketEntity> ticketEntities = ticketRepository.findAll();
+        List<TicketEntity> ticketEntitiesForUser = ticketEntities.stream().filter(t -> t.getUser().getId() == id).collect(Collectors.toList());
+        List<TicketDTO> ticketsDTO = new ArrayList<>();
+        for(int i=0; i<ticketEntitiesForUser.size(); i++){
+            UserEntity user = userRepository.findById(ticketEntitiesForUser.get(i).getUser().getId()).get();
+            ticketsDTO.add(TicketMapper.toProjection(ticketEntitiesForUser.get(i), null, user, null));
+        }
         return ticketsDTO;
     }
 }

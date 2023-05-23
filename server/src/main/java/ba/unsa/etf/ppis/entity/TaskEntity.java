@@ -1,6 +1,7 @@
 package ba.unsa.etf.ppis.entity;
 
 import ba.unsa.etf.ppis.constants.DatabaseConstants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,11 +12,12 @@ public class TaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "location", referencedColumnName = "id")
     private LocationEntity location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ticket", referencedColumnName = "id")
     private TicketEntity ticket;
 

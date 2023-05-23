@@ -2,6 +2,7 @@ package ba.unsa.etf.ppis.controller;
 
 import ba.unsa.etf.ppis.dto.AvailableTicketsDTO;
 import ba.unsa.etf.ppis.dto.TicketDTO;
+import ba.unsa.etf.ppis.entity.TicketEntity;
 import ba.unsa.etf.ppis.service.AvailableTicketsService;
 import ba.unsa.etf.ppis.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class TicketController {
     @GetMapping("/getbytype/{id}")
     public ResponseEntity<AvailableTicketsDTO> getByType(@PathVariable("id") int id){
         return new ResponseEntity<>(availableTicketsService.getTicketsForEventByType(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<List<TicketDTO>> getByUserId(@PathVariable("id") int id){
+        return new ResponseEntity<>(ticketService.getAllTicketsByUserId(id), HttpStatus.OK);
     }
 
     @PostMapping("/add")
