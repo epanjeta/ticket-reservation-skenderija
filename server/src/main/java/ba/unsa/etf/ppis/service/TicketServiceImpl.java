@@ -48,6 +48,9 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     protected LocationRepository locationRepository;
 
+    @Autowired
+    protected EmailService emailService;
+
     @Override
     public List<TicketDTO> saveReservations(TicketDTO reservations) {
         List<TicketDTO> ticketsDTO = new ArrayList<>();
@@ -78,6 +81,8 @@ public class TicketServiceImpl implements TicketService{
                 taskEntity.setLocation(location);
                 taskEntity.setTicket(tickedEntitySaved);
                 taskRepository.save(taskEntity);
+                UserEntity userEntity = userService.getAdminByLocation(location.getId());
+                emailService.sendEmail("New task!", "New task has been created!", userEntity);
                 // Smanjiti available za 1
                 availableTicketsEntity.setAvailableTickets(availableTicketsEntity.getAvailableTickets() - 1);
             }
