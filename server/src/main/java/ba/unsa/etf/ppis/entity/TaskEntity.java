@@ -12,7 +12,7 @@ public class TaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location", referencedColumnName = "id")
     private LocationEntity location;
 

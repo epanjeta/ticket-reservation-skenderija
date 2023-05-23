@@ -94,7 +94,6 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     public void changeTicketStatus(TicketEntity ticketEntity, TicketStatus ticketStatus) {
-        ticketEntity.setStatus(ticketStatus);
         ticketRepository.save(ticketEntity);
     }
 

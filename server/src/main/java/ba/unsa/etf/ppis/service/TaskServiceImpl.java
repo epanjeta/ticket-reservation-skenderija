@@ -11,6 +11,7 @@ import ba.unsa.etf.ppis.mappers.TicketMapper;
 import ba.unsa.etf.ppis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     protected UserRepository userRepository;
+    @Autowired
+    protected TicketRepository ticketRepository;
 
 
     @Override
@@ -81,19 +84,22 @@ public class TaskServiceImpl implements TaskService {
         return TaskMapper.toProjections(taskEntities, ticketDTOs);
     }
 
+    @Transactional
     @Override
     public TaskDTO finishTask(TaskDTO taskDTO) {
         TicketDTO reservations = taskDTO.getTicket();
         EventEntity event = eventRepository.findById(reservations.getEventDTO().getId());
         TicketTypeEntity ticketType = ticketTypeRepository.getReferenceById(reservations.getType());
-        AvailableTicketsEntity availableTicketsEntity = availableTicketsRepository.getReferenceById(reservations.getType());
         UserEntity user = userRepository.findById(reservations.getUserDTO()).get();
+        reservations.setStatus(TicketStatus.READY.name());
         TicketEntity ticketEntity = TicketMapper.toEntity(reservations,event,ticketType,user);
-
+        ticketEntity.setId(reservations.getId());
+        taskDTO.setLocation(null);
 
         //emailService.sendEmail("Ticket is ready!", "Your ticket is ready and waiting for you on location " + taskDTO.getLocation().getName(), user);
         ticketService.changeTicketStatus(ticketEntity, TicketStatus.valueOf("READY"));
         taskRepository.delete(TaskMapper.toEntity(taskDTO, ticketEntity));
+
         return taskDTO;
     }
 

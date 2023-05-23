@@ -17,6 +17,7 @@ public class TicketMapper {
         }
         TicketEntity entity = new TicketEntity();
         //entity.setEvent(EventMapper.toEntity(projection.getEventDTO(), image));
+        //entity.setId(projection.getId());
         entity.setEvent(event);
         entity.setStatus(TicketStatus.valueOf(projection.getStatus()));
         entity.setType(ticketType);

@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import React from 'react'
 import {useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
@@ -5,6 +6,21 @@ import Button from 'react-bootstrap/Button';
 const TaskCard = (props) => {
     
     const { task } = props;
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+            fetch('/api/task/changeStatus', {
+                method: 'DELETE',
+                body: JSON.stringify(task),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then( (response) => 
+                navigate({
+                    pathname: "/mytickets"
+                })
+            )
+    }
 
   return <>
   {
@@ -23,7 +39,7 @@ const TaskCard = (props) => {
                     </p>
                 </div>
                 <div className="col-md-6">
-                <Button variant="primary">
+                <Button variant="primary" onClick={e => handleSubmit(e)}>
                                 FINISHED
                 </Button>
                 </div>

@@ -31,6 +31,7 @@ const ReserveTicket = () => {
                 .then(response => response.json())
                 .then(result => {
                     setTicketType(result);
+                    console.log(ticketType.ticketTypeDTO.ticketType)
                 })
             
         }
@@ -79,14 +80,7 @@ const ReserveTicket = () => {
                     'Content-Type': 'application/json',
                 }
             }).then(
-                navigate({
-                    pathname: "/mytickets"
-                })
             )
-        }else {
-            navigate({
-                pathname: "/mytickets"
-            })
         }
     }
 
