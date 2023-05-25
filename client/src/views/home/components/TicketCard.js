@@ -9,9 +9,9 @@ const TicketCard = (props) => {
 
     const pdfGenerate = (e) => {
         var doc = new jsPDF();
-        doc.text(20, 20, ticket.eventDTO.title);
-        doc.text(20, 40, ticket.eventDTO.date);
-        doc.text(20, 50, ticket.eventDTO.type);
+        var imgData = 'data:image/jpeg;base64,'+ ticket.eventDTO.picture;
+        doc.addImage(imgData, 'JPEG', 15, 10, 180, 90);
+        doc.text(20, 110, "Ticket id: " + ticket.id);
 
         doc.save('ticket.pdf');
     }

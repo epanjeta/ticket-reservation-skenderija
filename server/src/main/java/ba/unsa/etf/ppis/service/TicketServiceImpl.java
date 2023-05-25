@@ -106,7 +106,7 @@ public class TicketServiceImpl implements TicketService{
         List<TicketDTO> ticketsDTO = new ArrayList<>();
         for(int i=0; i<ticketEntitiesForUser.size(); i++){
             UserEntity user = userRepository.findById(ticketEntitiesForUser.get(i).getUser().getId()).get();
-            ticketsDTO.add(TicketMapper.toProjection(ticketEntitiesForUser.get(i), null, user, null));
+            ticketsDTO.add(TicketMapper.toProjection(ticketEntitiesForUser.get(i), imageService.getImageWithId(ticketEntitiesForUser.get(i).getEvent().getPicture().getId()), user, null));
         }
         return ticketsDTO;
     }
