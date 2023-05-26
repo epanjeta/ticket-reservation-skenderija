@@ -187,9 +187,9 @@ const ReserveTicket = () => {
           </Col>
         </Form.Group>
                 
-        <button onClick={handleSubmit} className="button-48">
-                                Next
-        </button>
+        <Button variant="dark" onClick={e => handleSubmit(e)}>
+                                    Next
+                                </Button>
                 </Form>
             </div>
             

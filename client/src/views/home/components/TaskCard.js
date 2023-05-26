@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import React from 'react'
 import './EventCard.css';
+import Button from 'react-bootstrap/Button';
 
 const TaskCard = (props) => {
 
@@ -16,7 +17,7 @@ const TaskCard = (props) => {
             }
         }).then((response) =>
             navigate({
-                pathname: "/mytickets"
+                pathname: "/mytasks"
             })
         )
     }
@@ -40,9 +41,9 @@ const TaskCard = (props) => {
                     {
 
                             <div className="col-md-3">
-                                <button className="button-48" onClick={handleSubmit}>
-                                    Finish task
-                                </button>
+                                <Button variant="dark" onClick={e => handleSubmit(e)}>
+                                    Finish Task
+                                </Button>
                             </div>
 
                     }

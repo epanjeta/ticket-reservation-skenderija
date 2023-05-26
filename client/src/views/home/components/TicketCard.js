@@ -35,14 +35,16 @@ const TicketCard = (props) => {
                     {
                         ticket.status === "DOWNLOAD" ?
                             <div className="col-md-3">
-                                <button className="button-48" onClick={e => pdfGenerate(e)}>
+                                
+                                <Button variant="dark" onClick={e => pdfGenerate(e)}>
                                     Download
-                                </button>
+                                </Button>
                             </div> : <div className="col-md-3">
-                                <button disabled={true} className="button-48" onClick={e => pdfGenerate(e)}>
+                                
+                                <Button variant="dark" onClick={e => pdfGenerate(e)}>
                                     {ticket.status === "PENDING" ?
                                         "Pending" : "Ready for pickup"}
-                                </button>
+                                </Button>
                             </div>
 
                     }
