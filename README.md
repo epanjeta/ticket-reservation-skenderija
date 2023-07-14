@@ -4,6 +4,8 @@ Skenderija Ticket Reservation System is a full-stack web application designed to
 
 This comprehensive system incorporates key aspects of the ITIL (Information Technology Infrastructure Library) process, ensuring optimal performance, reliability, and security. The application caters to both administrative and user functionalities, enhancing the overall ticket reservation workflow
 
+[Click here to check the full project documentation](Documentation.pdf)
+
 ## Functionalities
 
 ### Offer Overview
