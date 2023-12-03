@@ -12,4 +12,5 @@ public interface UserService {
     UserDTO verifyUser(String email, String code);
     UserDTO getUserByEmail(String email);
     void createUser(UserDTO userDTO);
+    UserEntity getAdminByLocation(Integer locationId);
 }

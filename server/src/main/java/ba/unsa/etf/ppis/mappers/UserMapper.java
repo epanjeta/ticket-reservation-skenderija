@@ -20,6 +20,7 @@ public class UserMapper {
         projection.setEmail(entity.getEmail());
         projection.setDisplayValue(entity.getName());
         projection.setUserType(entity.getUserType());
+        projection.setLocation(LocationMapper.toProjection(entity.getLocation()));
         return projection;
     }
 
@@ -40,6 +41,7 @@ public class UserMapper {
         entity.setUserType(projection.getUserType());
         entity.setEmail(projection.getEmail());
         entity.setPassword(projection.getPassword());
+        entity.setLocation(LocationMapper.toEntity(projection.getLocation()));
         return entity;
     }
 

@@ -1,6 +1,9 @@
 package ba.unsa.etf.ppis.entity;
 
 import ba.unsa.etf.ppis.constants.DatabaseConstants;
+import ba.unsa.etf.ppis.constants.TaskStatus;
+import ba.unsa.etf.ppis.constants.TicketStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,9 +18,14 @@ public class TaskEntity {
     @JoinColumn(name = "location", referencedColumnName = "id")
     private LocationEntity location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ticket", referencedColumnName = "id")
     private TicketEntity ticket;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private TaskStatus status;
 
     public Integer getId() {
         return id;
@@ -41,5 +49,13 @@ public class TaskEntity {
 
     public void setTicket(TicketEntity ticket) {
         this.ticket = ticket;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 }

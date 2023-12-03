@@ -1,6 +1,8 @@
 package ba.unsa.etf.ppis.dto;
 
-public class TicketDTO {
+import java.io.Serializable;
+
+public class TicketDTO implements Serializable {
 
     private int id;
 

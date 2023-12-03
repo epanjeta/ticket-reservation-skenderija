@@ -1,13 +1,34 @@
+import {user} from "../../../context/Reducer";
+import {useEffect, useState} from "react";
+import {get} from "../../../methods";
+import TicketCard from "./TicketCard";
+import './EventCard.css';
 
 const MyTickets = () => {
 
-    return <>
+    const [tickets, setTickets] = useState([]);
+
+    useEffect( () => {
+        get('/api/ticket/get/' + user.id)
+            .then(result => {
+                setTickets(result);
+                console.log(result)
+            });
+    }, [])
+
+    return <div className="listBody">
         {
-            <h3>Napraviti da se izlistavaju svi tiketi za korsinika i njihov status i lokacija - ako ima lokacije. Ako je u pitanju download treba biti dugme 
-                na koje se klikne i isprinta se PDF karte.
-            </h3>
+            tickets &&
+            tickets.map(oneTicket => {
+                return <TicketCard ticket={oneTicket}></TicketCard>
+            })
         }
-    </>
+        {
+            (!tickets || tickets.length === 0) && <div className="noAvailable">
+                There are no tickets available at the moment
+            </div>
+        }
+    </div>
 }
 
 export default MyTickets;

@@ -1,5 +1,7 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.TaskStatus;
+import ba.unsa.etf.ppis.constants.TicketStatus;
 import ba.unsa.etf.ppis.dto.TicketDTO;
 import ba.unsa.etf.ppis.entity.*;
 import ba.unsa.etf.ppis.mappers.TicketMapper;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketServiceImpl implements TicketService{
@@ -46,6 +49,9 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     protected LocationRepository locationRepository;
 
+    @Autowired
+    protected EmailService emailService;
+
     @Override
     public List<TicketDTO> saveReservations(TicketDTO reservations) {
         List<TicketDTO> ticketsDTO = new ArrayList<>();
@@ -75,13 +81,33 @@ public class TicketServiceImpl implements TicketService{
                 TaskEntity taskEntity = new TaskEntity();
                 taskEntity.setLocation(location);
                 taskEntity.setTicket(tickedEntitySaved);
+                taskEntity.setStatus(TaskStatus.IN_PROGRESS);
                 taskRepository.save(taskEntity);
+                UserEntity userEntity = userService.getAdminByLocation(location.getId());
+                emailService.sendEmail("New task!", "New task has been created!", userEntity);
                 // Smanjiti available za 1
                 availableTicketsEntity.setAvailableTickets(availableTicketsEntity.getAvailableTickets() - 1);
             }
 
         }
         availableTicketsRepository.save(availableTicketsEntity);
+        return ticketsDTO;
+    }
+
+    @Override
+    public void changeTicketStatus(TicketEntity ticketEntity, TicketStatus ticketStatus) {
+        ticketRepository.save(ticketEntity);
+    }
+
+    @Override
+    public List<TicketDTO> getAllTicketsByUserId(Integer id) {
+        List<TicketEntity> ticketEntities = ticketRepository.findAll();
+        List<TicketEntity> ticketEntitiesForUser = ticketEntities.stream().filter(t -> t.getUser().getId() == id).collect(Collectors.toList());
+        List<TicketDTO> ticketsDTO = new ArrayList<>();
+        for(int i=0; i<ticketEntitiesForUser.size(); i++){
+            UserEntity user = userRepository.findById(ticketEntitiesForUser.get(i).getUser().getId()).get();
+            ticketsDTO.add(TicketMapper.toProjection(ticketEntitiesForUser.get(i), imageService.getImageWithId(ticketEntitiesForUser.get(i).getEvent().getPicture().getId()), user, null));
+        }
         return ticketsDTO;
     }
 }

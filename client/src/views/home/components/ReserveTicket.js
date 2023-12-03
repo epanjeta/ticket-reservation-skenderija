@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {user} from "../../../context/Reducer";
-
+import './EventCard.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -62,6 +62,28 @@ const ReserveTicket = () => {
         return errors;
     }
 
+    const createTask = (payload) => {
+        if(isLocationEnabled){
+            console.log(location)
+            let task = {
+                "location":{
+                    "id":location,
+                    "name": ""
+                },
+                "ticket": payload
+            }
+            console.log(task)
+            fetch('/api/task/add', {
+                method: 'POST',
+                body: JSON.stringify(task),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+            )
+        }
+    }
+
     const handleSubmit = (e) => {
         let errors =  validateStates();
         if (errors === "") {
@@ -77,18 +99,19 @@ const ReserveTicket = () => {
                     "id":location
                 }
             }
-            console.log(payload);
             fetch('/api/ticket/add', {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then(
+            }).then( (response) => 
                 navigate({
                     pathname: "/mytickets"
                 })
             )
+            
+            
         }
         else{
             alert(errors);
@@ -164,9 +187,9 @@ const ReserveTicket = () => {
           </Col>
         </Form.Group>
                 
-        <Button variant="primary" onClick={e => handleSubmit(e)}>
-                                Next
-        </Button>
+        <Button variant="dark" onClick={e => handleSubmit(e)}>
+                                    Next
+                                </Button>
                 </Form>
             </div>
             

@@ -13,6 +13,7 @@ public class UserDTO implements Serializable {
     private String name;
     private UserType userType;
     private String displayValue;
+    private LocationDTO location;
 
     public int getId() {
         return id;
@@ -60,5 +61,13 @@ public class UserDTO implements Serializable {
 
     public void setDisplayValue(String displayValue) {
         this.displayValue = displayValue;
+    }
+
+    public LocationDTO getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDTO location) {
+        this.location = location;
     }
 }

@@ -73,6 +73,9 @@ create table ppis.ticket
     event INT NOT NULL,
     type INT NOT NULL,
     userId INT NOT NULL,
+    location INT,
+    FOREIGN KEY (location)
+        REFERENCES ppis.location (id),
     FOREIGN KEY (event)
         REFERENCES ppis.event (id),
     FOREIGN KEY (type)
@@ -87,6 +90,7 @@ CREATE TABLE ppis.task
     id SERIAL PRIMARY KEY ,
     location INT NOT NULL ,
     ticket INT NOT NULL,
+    status VARCHAR(50) NOT NULL,
     FOREIGN KEY (location) REFERENCES ppis.location (id),
     FOREIGN KEY (ticket) REFERENCES ppis.ticket (id)
 );

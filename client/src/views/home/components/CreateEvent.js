@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-
+import './EventCard.css';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -173,7 +173,7 @@ const CreateEvent = () => {
                                     <Col>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Select Date</Form.Label>
-                                            <Form.Control type="date" name="dob"
+                                            <Form.Control type="date"
                                                           onChange={e => setDate(e.target.value)}/>
                                         </Form.Group>
                                     </Col>
@@ -251,7 +251,7 @@ const CreateEvent = () => {
                                                   onChange={e => setImage(e.target.files[0])}/>
                                 </Form.Group>
 
-                                <Button variant="primary" onClick={e => handleSubmit(e)}>
+                                <Button variant="dark" onClick={e => handleSubmit(e)}>
                                     Add
                                 </Button>
                             </Form>
