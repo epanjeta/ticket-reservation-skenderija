@@ -13,7 +13,7 @@ export async function loginUser(dispatch, loginPayload) {
         console.info(data)
         if (!result.errors) {
             dispatch({ type: 'LOGIN_SUCCESS', payload: {user: result} });
-            localStorage.setItem('currentUser', JSON.stringify( {user: result}));
+            localStorage.setItem('currentUser', JSON.stringify( {user: result.jwt}));
         } else {
             dispatch({ type: 'LOGIN_ERROR', error: result.errors[0] });
         }

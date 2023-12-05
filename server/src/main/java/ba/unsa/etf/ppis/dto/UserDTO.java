@@ -15,6 +15,7 @@ public class UserDTO implements Serializable {
     private String displayValue;
     private LocationDTO location;
 
+    private String jwt;
     public int getId() {
         return id;
     }
@@ -69,5 +70,13 @@ public class UserDTO implements Serializable {
 
     public void setLocation(LocationDTO location) {
         this.location = location;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 }

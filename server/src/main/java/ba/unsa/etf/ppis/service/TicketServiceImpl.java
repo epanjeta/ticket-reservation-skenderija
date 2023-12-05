@@ -1,19 +1,19 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.constants.TaskStatus;
 import ba.unsa.etf.ppis.constants.TicketStatus;
 import ba.unsa.etf.ppis.dto.TicketDTO;
 import ba.unsa.etf.ppis.entity.*;
+import ba.unsa.etf.ppis.exception.NoAccessException;
 import ba.unsa.etf.ppis.mappers.TicketMapper;
 import ba.unsa.etf.ppis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,8 +52,18 @@ public class TicketServiceImpl implements TicketService{
     @Autowired
     protected EmailService emailService;
 
+    @Autowired
+    protected AuthService authService;
+
     @Override
-    public List<TicketDTO> saveReservations(TicketDTO reservations) {
+    public List<TicketDTO> saveReservations(TicketDTO reservations, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isUserRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         List<TicketDTO> ticketsDTO = new ArrayList<>();
         int amount = reservations.getAmount();
         EventEntity event = eventRepository.findById(reservations.getEventDTO().getId());
@@ -100,7 +110,14 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public List<TicketDTO> getAllTicketsByUserId(Integer id) {
+    public List<TicketDTO> getAllTicketsByUserId(Integer id, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isUserRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         List<TicketEntity> ticketEntities = ticketRepository.findAll();
         List<TicketEntity> ticketEntitiesForUser = ticketEntities.stream().filter(t -> t.getUser().getId() == id).collect(Collectors.toList());
         List<TicketDTO> ticketsDTO = new ArrayList<>();

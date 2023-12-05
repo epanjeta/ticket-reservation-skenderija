@@ -26,8 +26,15 @@ const ReserveTicket = () => {
 
 
     useEffect(() => {
+        const token = JSON.parse(localStorage.getItem("currentUser")).user;
         if (params && params.ticketTypeId) {
-            fetch('/api/ticket/getbytype/' + params.ticketTypeId)
+            fetch('/api/ticket/getbytype/' + params.ticketTypeId, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
                 .then(response => response.json())
                 .then(result => {
                     setTicketType(result);
@@ -85,6 +92,7 @@ const ReserveTicket = () => {
     }
 
     const handleSubmit = (e) => {
+        const token = JSON.parse(localStorage.getItem("currentUser")).user;
         let errors =  validateStates();
         if (errors === "") {
             let payload = {
@@ -103,6 +111,7 @@ const ReserveTicket = () => {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 }
             }).then( (response) => 
@@ -119,7 +128,8 @@ const ReserveTicket = () => {
     }
 
     return <>
-        { 
+        
+            {user.userType === "USER" ? (
             ticketType && ticketType.ticketTypeDTO &&
             <div className="container">
                 <h1 style={{ textAlign: 'left', marginLeft: '10px', marginTop: '20px' }}>Ticket type: {ticketType.ticketTypeDTO.ticketType}</h1>
@@ -193,7 +203,13 @@ const ReserveTicket = () => {
                 </Form>
             </div>
             
-        }
+            ) : (
+                <div className="container mt-3">
+              <p>Oops, looks like you don't have access to this page.</p>
+            </div>
+                )}
+            
+        
     </>
 }
 

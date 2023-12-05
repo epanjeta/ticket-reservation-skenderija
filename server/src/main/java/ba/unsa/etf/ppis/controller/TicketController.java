@@ -25,17 +25,17 @@ public class TicketController {
     protected TicketService ticketService;
 
     @GetMapping("/getbytype/{id}")
-    public ResponseEntity<AvailableTicketsDTO> getByType(@PathVariable("id") int id){
-        return new ResponseEntity<>(availableTicketsService.getTicketsForEventByType(id), HttpStatus.OK);
+    public ResponseEntity<AvailableTicketsDTO> getByType(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @PathVariable("id") int id){
+        return new ResponseEntity<>(availableTicketsService.getTicketsForEventByType(id, authorizationHeader), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<List<TicketDTO>> getByUserId(@PathVariable("id") int id){
-        return new ResponseEntity<>(ticketService.getAllTicketsByUserId(id), HttpStatus.OK);
+    public ResponseEntity<List<TicketDTO>> getByUserId(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @PathVariable("id") int id){
+        return new ResponseEntity<>(ticketService.getAllTicketsByUserId(id, authorizationHeader), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<TicketDTO>> save(@RequestBody TicketDTO ticketDTO){
-        return new ResponseEntity<>(ticketService.saveReservations(ticketDTO), HttpStatus.OK);
+    public ResponseEntity<List<TicketDTO>> save(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @RequestBody TicketDTO ticketDTO){
+        return new ResponseEntity<>(ticketService.saveReservations(ticketDTO, authorizationHeader), HttpStatus.OK);
     }
 }

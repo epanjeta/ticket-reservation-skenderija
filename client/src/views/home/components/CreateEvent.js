@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import './EventCard.css';
+import {user} from "../../../context/Reducer";
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -40,7 +41,7 @@ const CreateEvent = () => {
     }
 
     const handleSubmit = (e) => {
-
+        const token = JSON.parse(localStorage.getItem("currentUser")).user;
         let errors =  validateStates();
         if (errors === "") {
 
@@ -55,16 +56,20 @@ const CreateEvent = () => {
                 method: 'POST',
                 body: JSON.stringify(availableBody),
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 }
             }).then(
                 response => response.json()
                 .then( data => {
                         if (data.available == false) alert("This date is not available!");
-                        else{
-                            fetch('/api/image/upload', {
+                        else{ 
+                            fetch('/api/image/upload', { 
                                 method: 'POST',
                                 body: imagedata,
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
                             }).then(response => response.json()
                                 .then(data => {
                                     let imageDbId = data;
@@ -107,6 +112,7 @@ const CreateEvent = () => {
                                         method: 'POST',
                                         body: JSON.stringify(payload),
                                         headers: {
+                                            'Authorization': `Bearer ${token}`,
                                             'Content-Type': 'application/json',
                                         }
                                     }).then(response2 => response2.json()
@@ -134,13 +140,13 @@ const CreateEvent = () => {
                         setTime(selectedTime)
                     }
 
-                    return <>{
 
-                        <div className="container mt-3">
-
-                            <h1>Add a New Event</h1>
-
-                            <Form className="mx-3 my-3">
+                    return (
+                        <>
+                          {user.userType === "ADMIN" ? (
+                            <div className="container mt-3">
+                              <h1>Add a New Event</h1>
+                              <Form className="mx-3 my-3">
 
                                 <Row>
                                     <Col>
@@ -255,10 +261,16 @@ const CreateEvent = () => {
                                     Add
                                 </Button>
                             </Form>
-                        </div>
+                            </div>
+                          ) : (
+                            <div className="container mt-3">
+                              <p>Oops, looks like you don't have access to this page.</p>
+                            </div>
+                          )}
+                        </>
+                      );
 
-
-                    }</>
+                    
                 }
 
             export default CreateEvent;

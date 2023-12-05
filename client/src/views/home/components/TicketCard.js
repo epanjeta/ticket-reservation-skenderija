@@ -41,7 +41,7 @@ const TicketCard = (props) => {
                                 </Button>
                             </div> : <div className="col-md-3">
                                 
-                                <Button variant="dark" onClick={e => pdfGenerate(e)}>
+                                <Button variant="dark">
                                     {ticket.status === "PENDING" ?
                                         "Pending" : "Ready for pickup"}
                                 </Button>

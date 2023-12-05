@@ -73,7 +73,8 @@ public class ApiResponseMessages {
     public static final String UUIDS_DO_NOT_MATCH = "The provided UUID from path and body do not match!";
     public static final String PASSWORDS_DO_NOT_MATCH = "The old password that was provided do not match!";
 
-
+    // no access
+    public static final String NO_ACCESS = "You don't have access to this resource";
     private ApiResponseMessages() {
     }
 }

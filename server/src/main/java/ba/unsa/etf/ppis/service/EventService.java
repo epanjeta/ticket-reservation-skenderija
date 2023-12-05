@@ -10,7 +10,7 @@ public interface EventService {
 
     EventDTO getEvent(int id);
 
-    EventDTO saveEvent(EventDTO newEventDTO);
+    EventDTO saveEvent(EventDTO newEventDTO, String authorizationHeader);
 
-    DateDTO checkIfAvailable(DateDTO date);
+    DateDTO checkIfAvailable(DateDTO date, String authorizationHeader);
 }

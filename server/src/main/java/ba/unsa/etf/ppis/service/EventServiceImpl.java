@@ -1,10 +1,12 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.dto.DateDTO;
 import ba.unsa.etf.ppis.dto.EventDTO;
 import ba.unsa.etf.ppis.entity.EventEntity;
 import ba.unsa.etf.ppis.entity.ImageEntity;
 import ba.unsa.etf.ppis.entity.TicketTypeEntity;
+import ba.unsa.etf.ppis.exception.NoAccessException;
 import ba.unsa.etf.ppis.mappers.AvailableTicketsMapper;
 import ba.unsa.etf.ppis.mappers.EventMapper;
 import ba.unsa.etf.ppis.mappers.TicketTypeMapper;
@@ -14,7 +16,6 @@ import ba.unsa.etf.ppis.repository.TicketTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class EventServiceImpl implements EventService{
     @Autowired protected AvailableTicketsService availableTicketsService;
     @Autowired protected AvailableTicketsRepository availableTicketsRepository;
     @Autowired protected TicketTypeRepository ticketTypeRepository;
+    @Autowired protected AuthService authService;
 
     @Override
     public List<EventDTO> getAllEvents() {
@@ -46,7 +48,14 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public EventDTO saveEvent(EventDTO newEventDTO) {
+    public EventDTO saveEvent(EventDTO newEventDTO, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isAdminRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         ImageEntity image = imageService.getImageEntityWithId(newEventDTO.getPictureId());
         EventEntity event = eventRepository.save(EventMapper.toEntity(newEventDTO, image));
 
@@ -59,7 +68,14 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public DateDTO checkIfAvailable(DateDTO date) {
+    public DateDTO checkIfAvailable(DateDTO date, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isAdminRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         List<EventEntity> events = eventRepository.findAll();
         DateDTO isAvailable = new DateDTO(date.getDate(), true);
 

@@ -44,12 +44,12 @@ public class EventController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<EventDTO> saveEvent(@RequestBody EventDTO newEventDTO) {
-        return new ResponseEntity<>(eventService.saveEvent(newEventDTO), HttpStatus.OK);
+    public ResponseEntity<EventDTO> saveEvent(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @RequestBody EventDTO newEventDTO) {
+        return new ResponseEntity<>(eventService.saveEvent(newEventDTO, authorizationHeader), HttpStatus.OK);
     }
 
     @PostMapping("/available")
-    public ResponseEntity<DateDTO> checkIfAvailable(@RequestBody @DateTimeFormat(pattern = "yyyy-MM-dd") DateDTO date){
-        return new ResponseEntity<>(eventService.checkIfAvailable(date), HttpStatus.OK);
+    public ResponseEntity<DateDTO> checkIfAvailable(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @RequestBody @DateTimeFormat(pattern = "yyyy-MM-dd") DateDTO date){
+        return new ResponseEntity<>(eventService.checkIfAvailable(date, authorizationHeader), HttpStatus.OK);
     }
 }

@@ -1,6 +1,8 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.entity.ImageEntity;
+import ba.unsa.etf.ppis.exception.NoAccessException;
 import ba.unsa.etf.ppis.repository.ImageRepository;
 import ba.unsa.etf.ppis.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,17 @@ public class ImageServiceImpl implements ImageService {
 
     @Autowired
     protected ImageRepository imageRepository;
+    @Autowired protected AuthService authService;
 
     @Override
-    public ImageEntity uploadImage(MultipartFile file) throws IOException {
+    public ImageEntity uploadImage(MultipartFile file, String authorizationHeader) throws IOException {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isAdminRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         ImageEntity pImage = new ImageEntity();
         pImage.setName(file.getOriginalFilename());
         pImage.setType(file.getContentType());

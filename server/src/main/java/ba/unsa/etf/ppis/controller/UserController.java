@@ -1,6 +1,7 @@
 package ba.unsa.etf.ppis.controller;
 
 import ba.unsa.etf.ppis.constants.ApiResponseMessages;
+import ba.unsa.etf.ppis.dto.LogInUserDTO;
 import ba.unsa.etf.ppis.dto.LoginDTO;
 import ba.unsa.etf.ppis.dto.MessageDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
@@ -45,7 +46,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD,
                     content = @Content)})
     @PutMapping("/authenticate")
-    public ResponseEntity<UserDTO> getUserByEmailAndPassword(
+    public ResponseEntity<LogInUserDTO> getUserByEmailAndPassword(
             @RequestBody LoginDTO login) {
         return new ResponseEntity<>(userService.getUserByEmailAndPassword(login.getEmail(), login.getPassword()), HttpStatus.OK);
     }

@@ -1,12 +1,12 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.constants.TaskStatus;
 import ba.unsa.etf.ppis.constants.TicketStatus;
-import ba.unsa.etf.ppis.dto.EventDTO;
 import ba.unsa.etf.ppis.dto.TaskDTO;
 import ba.unsa.etf.ppis.dto.TicketDTO;
-import ba.unsa.etf.ppis.dto.UserDTO;
 import ba.unsa.etf.ppis.entity.*;
+import ba.unsa.etf.ppis.exception.NoAccessException;
 import ba.unsa.etf.ppis.mappers.TaskMapper;
 import ba.unsa.etf.ppis.mappers.TicketMapper;
 import ba.unsa.etf.ppis.repository.*;
@@ -51,6 +51,9 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     protected TicketRepository ticketRepository;
 
+    @Autowired
+    protected AuthService authService;
+
 
     @Override
     public TaskDTO createTask(TaskDTO taskDTO) {
@@ -65,7 +68,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> getTaskByLocationId(Integer locationId) {
+    public List<TaskDTO> getTaskByLocationId(Integer locationId, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isAdminRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
 
         List<TaskEntity> taskEntityList = taskRepository.findAll();
         List<TaskEntity> taskEntities = taskEntityList.stream()
@@ -86,7 +95,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public TaskDTO finishTask(TaskDTO taskDTO) {
+    public TaskDTO finishTask(TaskDTO taskDTO, String authorizationHeader) {
+
+        if(authorizationHeader == null || authorizationHeader.isEmpty())
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
+        if(!authService.isAdminRole(authorizationHeader))
+            throw new NoAccessException(ApiResponseMessages.NO_ACCESS);
+
         TicketDTO reservations = taskDTO.getTicket();
         EventEntity event = eventRepository.findById(reservations.getEventDTO().getId());
         TicketTypeEntity ticketType = ticketTypeRepository.getReferenceById(reservations.getType());

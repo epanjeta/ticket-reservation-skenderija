@@ -9,16 +9,18 @@ const TaskCard = (props) => {
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        const token = JSON.parse(localStorage.getItem("currentUser")).user;
         fetch('/api/task/changeStatus', {
             method: 'PUT',
             body: JSON.stringify(task),
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }
         }).then((response) =>
-            navigate({
-                pathname: "/mytasks"
-            })
+            {
+                window.location.reload();
+            }
         )
     }
 
