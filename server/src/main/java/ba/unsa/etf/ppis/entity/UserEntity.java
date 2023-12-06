@@ -4,6 +4,7 @@ import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import ba.unsa.etf.ppis.constants.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.ZonedDateTime;
 
@@ -96,9 +97,9 @@ public class UserEntity {
         this.verified = verified;
     }
 
-    public boolean comparePasswords(@NotNull String password1) {
-        return password1.equals(password);
-    }
+//    public boolean comparePasswords(@NotNull String password1) {
+//        return password1.equals(password);
+//    }
 
     public LocationEntity getLocation() {
         return location;
@@ -106,5 +107,15 @@ public class UserEntity {
 
     public void setLocation(LocationEntity location) {
         this.location = location;
+    }
+
+    public void hashAndSetPassword(String rawPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(rawPassword);
+    }
+
+    public boolean comparePasswords(@NotNull String rawPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(rawPassword, this.password);
     }
 }

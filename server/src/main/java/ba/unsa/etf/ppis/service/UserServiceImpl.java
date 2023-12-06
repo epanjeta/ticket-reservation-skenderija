@@ -10,6 +10,7 @@ import ba.unsa.etf.ppis.repository.UserRepository;
 import ba.unsa.etf.ppis.util.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public LogInUserDTO getUserByEmailAndPassword(String email, String password) {
         UserEntity userEntity = getUserEntityByEmail(email);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
         if (!userEntity.comparePasswords(password)) {
             throw new NotValidException(ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD);
         }
@@ -79,6 +82,7 @@ public class UserServiceImpl implements UserService{
         }
         UserEntity userEntity = UserMapper.mapToEntity(userDTO, null);
         userEntity.setVerified(false);
+        userEntity.hashAndSetPassword(userDTO.getPassword());
         setCodeAndSend(userEntity);
         UserMapper.mapToProjection(userRepository.save(userEntity));
     }
