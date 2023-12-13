@@ -5,6 +5,7 @@ import ba.unsa.etf.ppis.dto.LogInUserDTO;
 import ba.unsa.etf.ppis.dto.LoginDTO;
 import ba.unsa.etf.ppis.dto.MessageDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
+import ba.unsa.etf.ppis.entity.UserEntity;
 import ba.unsa.etf.ppis.exception.NotValidException;
 import ba.unsa.etf.ppis.service.UserService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -71,6 +72,27 @@ public class UserController {
         validateUserCreation(userDTO);
         userService.createUser(userDTO);
         return new ResponseEntity<>(new MessageDTO(ApiResponseMessages.VERIFICATION_CODE_WAS_SENT), HttpStatus.CREATED);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})})
+    @PostMapping("/changePassword/{userId}")
+    public ResponseEntity<UserDTO> changePassword(@PathVariable("userId") Integer userId, @RequestBody String newPassword){
+        UserDTO user = userService.changePassword(userId, newPassword);
+        if(user!=null) return new ResponseEntity<>(user, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})})
+    @PostMapping("/checkPassword/{userId}")
+    public ResponseEntity<UserEntity> checkPassword(@PathVariable("userId") Integer userId,@RequestBody String currentPassword){
+        UserEntity user = userService.checkPassword(userId, currentPassword);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     private void validateUserCreation(UserDTO userDTO) {

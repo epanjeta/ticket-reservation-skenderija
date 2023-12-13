@@ -95,6 +95,34 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+    @Override
+    public UserDTO changePassword(Integer userId, String newPassword) {
+        Optional<UserEntity> userPasswordChange = userRepository.findById(userId);
+        if(userPasswordChange.isPresent()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            userPasswordChange.get().setPassword(hashedPassword);
+            UserDTO mappedUser = UserMapper.mapToProjection(userRepository.save(userPasswordChange.get()));
+            return mappedUser;
+        }
+        return null;
+    }
+
+
+    @Override
+    public UserEntity checkPassword(Integer userId, String currentPassword) {
+        Optional<UserEntity> currentUser = userRepository.findById(userId);
+        if(currentUser.isPresent()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(currentPassword);
+            if (!currentUser.get().comparePasswords(currentPassword)) {
+                throw new NotValidException(ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD);
+            }
+            return currentUser.get();
+        }
+        throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_ID);
+    }
+
     private void setCodeAndSend(UserEntity userEntity) {
         String code = UserMapper.getRandomCode();
         userEntity.setCode(code);
