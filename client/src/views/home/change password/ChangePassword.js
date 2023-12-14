@@ -41,7 +41,7 @@ const ChangePasswordForm = () => {
         if (result2.ok) {
           alert("You have successfully changed your password!");
         } else {
-          alert(result2.statusText);
+          alert("Password too weak");
         }
       } else {
         alert("Input correct current password.");

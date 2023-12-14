@@ -80,6 +80,7 @@ public class UserController {
                             schema = @Schema(implementation = String.class))})})
     @PostMapping("/changePassword/{userId}")
     public ResponseEntity<UserDTO> changePassword(@PathVariable("userId") Integer userId, @RequestBody String newPassword){
+        validatePassword(newPassword);
         UserDTO user = userService.changePassword(userId, newPassword);
         if(user!=null) return new ResponseEntity<>(user, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
