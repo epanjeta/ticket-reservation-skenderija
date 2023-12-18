@@ -12,6 +12,7 @@ import ReserveTicket from "./views/home/components/ReserveTicket";
 import MyTasks from "./views/home/components/MyTasks";
 import MyTickets from "./views/home/components/MyTickets";
 import ChangePasswordForm from "./views/home/change password/ChangePassword";
+import ForgotPassword from "./views/home/components/ForgotPassword";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/mytickets" element={<MyTickets />} />
             <Route path="/mytasks" element={<MyTasks />} />
             <Route path="/changePassword" element={<ChangePasswordForm />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
           </Routes>
         </BrowserRouter>
       </div>
