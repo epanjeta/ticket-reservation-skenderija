@@ -14,4 +14,8 @@ public interface UserService {
     UserDTO getUserByEmail(String email);
     void createUser(UserDTO userDTO);
     UserEntity getAdminByLocation(Integer locationId);
+
+    UserDTO changePassword(Integer userId, String newPassword);
+
+    UserEntity checkPassword(Integer userId, String currentPassword);
 }
