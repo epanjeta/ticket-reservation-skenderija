@@ -4,9 +4,11 @@ import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.dto.ForgottenPasswordDTO;
 import ba.unsa.etf.ppis.dto.LogInUserDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
+import ba.unsa.etf.ppis.entity.JwtEntity;
 import ba.unsa.etf.ppis.entity.UserEntity;
 import ba.unsa.etf.ppis.exception.NotValidException;
 import ba.unsa.etf.ppis.mappers.UserMapper;
+import ba.unsa.etf.ppis.repository.JwtRepository;
 import ba.unsa.etf.ppis.repository.UserRepository;
 import ba.unsa.etf.ppis.util.JwtUtils;
 import ba.unsa.etf.ppis.util.PasswordUtils;
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService{
     @Autowired protected UserRepository userRepository;
     @Autowired protected EmailService emailService;
     @Autowired private JwtUtils jwtUtils;
+    @Autowired private JwtRepository jwtRepository;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -43,6 +46,8 @@ public class UserServiceImpl implements UserService{
             povratUser.setJwt(jwtUtils.generateToken(povratUser.getEmail(), povratUser.getUserType().toString(), povratUser.getId(), povratUser.getLocation().getId()));
         else
             povratUser.setJwt(jwtUtils.generateToken(povratUser.getEmail(), povratUser.getUserType().toString(), povratUser.getId(), null));
+        JwtEntity jwtEntity = new JwtEntity(povratUser.getJwt(), true);
+        jwtRepository.save(jwtEntity);
         LogInUserDTO povrat = new LogInUserDTO();
         povrat.setLocation(povratUser.getLocation());
         povrat.setJwt(povratUser.getJwt());

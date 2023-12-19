@@ -1,7 +1,7 @@
 // Context/actions.js
 
 
-import {put} from "../methods";
+import {put, putAuth} from "../methods";
 
 export async function loginUser(dispatch, loginPayload) {
     let data = undefined;
@@ -27,6 +27,9 @@ export async function loginUser(dispatch, loginPayload) {
 
 export async function logout(dispatch) {
     dispatch({ type: 'LOGOUT' });
+    putAuth("/api/jwt/remove-token").then(response => {
+        console.log(response)
+    });
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
 }

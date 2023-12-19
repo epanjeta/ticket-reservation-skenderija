@@ -94,3 +94,10 @@ CREATE TABLE ppis.task
     FOREIGN KEY (location) REFERENCES ppis.location (id),
     FOREIGN KEY (ticket) REFERENCES ppis.ticket (id)
 );
+
+CREATE TABLE ppis.jwt
+(
+    id SERIAL PRIMARY KEY,
+    token VARCHAR(1000) NOT NULL,
+    valid BOOLEAN NOT NULL DEFAULT TRUE
+);

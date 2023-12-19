@@ -1,8 +1,11 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.entity.JwtEntity;
 import ba.unsa.etf.ppis.exception.NotValidJwtException;
+import ba.unsa.etf.ppis.repository.JwtRepository;
 import ba.unsa.etf.ppis.util.JwtUtils;
 import io.jsonwebtoken.Claims;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +13,14 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService{
 
     @Autowired private JwtUtils jwtUtils;
+    @Autowired private JwtRepository jwtRepository;
 
     @Override
     public boolean isValidToken(String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
+        JwtEntity jwtToken = jwtRepository.findJwtEntitiesByToken(token);
+        if (jwtToken == null) return false;
+        if (!jwtToken.isValid()) return false;
         return jwtUtils.isTokenValid(token);
     }
 
@@ -35,5 +42,16 @@ public class AuthServiceImpl implements AuthService{
         String userType = (String) claims.get("userType");
         if(userType.equals("USER")) return true;
         else return false;
+    }
+
+    @Override
+    public void setTokenNotValid(String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        JwtEntity jwtToken = jwtRepository.findJwtEntitiesByToken(token);
+        if(jwtToken == null){
+            throw new EntityNotFoundException("JWT token not found in database");
+        }
+        jwtToken.setValid(false);
+        jwtRepository.save(jwtToken);
     }
 }

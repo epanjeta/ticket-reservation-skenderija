@@ -32,4 +32,19 @@ public class JwtController {
             return new ResponseEntity<>(new MessageDTO("Invalid token"), HttpStatus.OK);
         }
     }
+
+    @PutMapping("/remove-token")
+    public ResponseEntity<MessageDTO> removeToken(@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return new ResponseEntity<>(new MessageDTO("Invalid or missing Authorization header"), HttpStatus.OK);
+        }
+
+        if(authService.isValidToken(authorizationHeader)){
+            authService.setTokenNotValid(authorizationHeader);
+            return new ResponseEntity<>(new MessageDTO("Token set to not valid"), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(new MessageDTO("Invalid token"), HttpStatus.OK);
+        }
+    }
 }
