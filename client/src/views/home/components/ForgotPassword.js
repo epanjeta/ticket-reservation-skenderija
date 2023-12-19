@@ -16,10 +16,10 @@ const ForgotPassword = () => {
     e.preventDefault();
     console.log(`Password reset requested for email: ${email}`);
     var requestBody = {
-      "email":email
-    }
-    post("/api/user/changeForgottenPassword", requestBody)
-    navigate("/login")
+      email: email,
+    };
+    post("/api/user/changeForgottenPassword", requestBody);
+    navigate("/login");
   };
 
   return (
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
             onChange={handleEmailChange}
           />
         </label>
-        <button className="button" type="submit">
+        <button className="buttonFP" type="submit">
           Reset Password
         </button>
       </form>
