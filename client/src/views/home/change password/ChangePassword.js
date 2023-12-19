@@ -41,7 +41,7 @@ const ChangePasswordForm = () => {
         });
         if (result2.ok) {
           alert("You have successfully changed your password!");
-          navigate("/")
+          navigate("/");
         } else {
           alert("Password too weak");
         }
@@ -57,7 +57,7 @@ const ChangePasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="formChange">
+    <form className="formChange" onSubmit={handleSubmit}>
       <div className="divChange">
         <label htmlFor="currentPassword" className="labelChange">
           Current Password:
