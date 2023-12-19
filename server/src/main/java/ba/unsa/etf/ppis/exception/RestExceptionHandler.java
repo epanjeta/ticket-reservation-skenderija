@@ -60,6 +60,14 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(getErrorsMap(errors), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(NotValidJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    private ResponseEntity<Map<String, List<String>>> handleNotJwtValid(NotValidJwtException ex){
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(EmptyResultDataAccessException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private ResponseEntity<Map<String, List<String>>> handleEmptyResultDataAccessNotFound(EmptyResultDataAccessException ex){
