@@ -1,9 +1,12 @@
 // ForgotPassword.js
 import React, { useState } from "react";
 import "./forgotPassword.css"; // Import your CSS file
+import { post } from "../../../methods";
+import { useNavigate } from "react-router";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -12,6 +15,11 @@ const ForgotPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`Password reset requested for email: ${email}`);
+    var requestBody = {
+      "email":email
+    }
+    post("/api/user/changeForgottenPassword", requestBody)
+    navigate("/login")
   };
 
   return (

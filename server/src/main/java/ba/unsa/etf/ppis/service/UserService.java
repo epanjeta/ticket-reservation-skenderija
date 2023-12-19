@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.service;
 
+import ba.unsa.etf.ppis.dto.ForgottenPasswordDTO;
 import ba.unsa.etf.ppis.dto.LogInUserDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
 import ba.unsa.etf.ppis.entity.UserEntity;
@@ -18,4 +19,6 @@ public interface UserService {
     UserDTO changePassword(Integer userId, String newPassword);
 
     UserEntity checkPassword(Integer userId, String currentPassword);
+
+    void changeForgottenPassword(ForgottenPasswordDTO email);
 }

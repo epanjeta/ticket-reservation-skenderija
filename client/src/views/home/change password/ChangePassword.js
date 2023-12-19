@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./changePassword.css";
 import { post } from "../../../methods";
 import { user } from "../../../context/Reducer";
+import { useNavigate } from "react-router";
 
 const ChangePasswordForm = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,6 +41,7 @@ const ChangePasswordForm = () => {
         });
         if (result2.ok) {
           alert("You have successfully changed your password!");
+          navigate("/")
         } else {
           alert("Password too weak");
         }

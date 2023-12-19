@@ -1,6 +1,7 @@
 package ba.unsa.etf.ppis.service;
 
 import ba.unsa.etf.ppis.constants.ApiResponseMessages;
+import ba.unsa.etf.ppis.dto.ForgottenPasswordDTO;
 import ba.unsa.etf.ppis.dto.LogInUserDTO;
 import ba.unsa.etf.ppis.dto.UserDTO;
 import ba.unsa.etf.ppis.entity.UserEntity;
@@ -8,6 +9,7 @@ import ba.unsa.etf.ppis.exception.NotValidException;
 import ba.unsa.etf.ppis.mappers.UserMapper;
 import ba.unsa.etf.ppis.repository.UserRepository;
 import ba.unsa.etf.ppis.util.JwtUtils;
+import ba.unsa.etf.ppis.util.PasswordUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -121,6 +123,15 @@ public class UserServiceImpl implements UserService{
             return currentUser.get();
         }
         throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_ID);
+    }
+
+    @Override
+    public void changeForgottenPassword(ForgottenPasswordDTO email) {
+        UserEntity user = getUserEntityByEmail(email.getEmail());
+        String newPassword = PasswordUtils.generateRandomPassword();
+        changePassword(user.getId(), newPassword);
+        emailService.sendEmail("Password reset",
+                "Your new password is: " + newPassword + " PLEASE CHANGE IT AS SOON AS YOU LOG IN !", user);
     }
 
     private void setCodeAndSend(UserEntity userEntity) {

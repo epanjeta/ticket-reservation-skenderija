@@ -1,10 +1,7 @@
 package ba.unsa.etf.ppis.controller;
 
 import ba.unsa.etf.ppis.constants.ApiResponseMessages;
-import ba.unsa.etf.ppis.dto.LogInUserDTO;
-import ba.unsa.etf.ppis.dto.LoginDTO;
-import ba.unsa.etf.ppis.dto.MessageDTO;
-import ba.unsa.etf.ppis.dto.UserDTO;
+import ba.unsa.etf.ppis.dto.*;
 import ba.unsa.etf.ppis.entity.UserEntity;
 import ba.unsa.etf.ppis.exception.NotValidException;
 import ba.unsa.etf.ppis.service.UserService;
@@ -94,6 +91,12 @@ public class UserController {
     public ResponseEntity<UserEntity> checkPassword(@PathVariable("userId") Integer userId,@RequestBody String currentPassword){
         UserEntity user = userService.checkPassword(userId, currentPassword);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/changeForgottenPassword")
+    public ResponseEntity<MessageDTO> changeForgottenPassword(@RequestBody ForgottenPasswordDTO email){
+        userService.changeForgottenPassword(email);
+        return new ResponseEntity<>(new MessageDTO("Password changed"), HttpStatus.OK);
     }
 
     private void validateUserCreation(UserDTO userDTO) {
