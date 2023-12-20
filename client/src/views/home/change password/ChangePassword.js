@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./changePassword.css";
 import { post } from "../../../methods";
 import { user } from "../../../context/Reducer";
@@ -9,7 +9,16 @@ const ChangePasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("currentUser"))?.user;
+    if (token === undefined) {
+      navigate('/');
+    }
+  }, []); 
+
   const handleSubmit = async (e) => {
+    const token = JSON.parse(localStorage.getItem("currentUser")).user;
     e.preventDefault();
 
     // Add your logic to handle password change here
@@ -25,7 +34,7 @@ const ChangePasswordForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Add any additional headers if needed (e.g., authorization token)
+          'Authorization': `Bearer ${token}`,
         },
         body: currentPassword,
       });
@@ -35,7 +44,7 @@ const ChangePasswordForm = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // Add any additional headers if needed (e.g., authorization token)
+            'Authorization': `Bearer ${token}`,
           },
           body: newPassword,
         });

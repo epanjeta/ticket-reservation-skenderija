@@ -2,14 +2,20 @@ import {user} from "../../../context/Reducer";
 import {useEffect, useState} from "react";
 import {getAuth} from "../../../methods";
 import TicketCard from "./TicketCard";
+import { useNavigate } from "react-router";
 import './EventCard.css';
 
 const MyTickets = () => {
 
     const [tickets, setTickets] = useState([]);
+    const navigate = useNavigate();
 
     useEffect( () => {
-        const token = JSON.parse(localStorage.getItem("currentUser")).user;
+        const token = JSON.parse(localStorage.getItem("currentUser"))?.user;
+        if (token === undefined) {
+        navigate('/');
+        return;
+        }
         getAuth('/api/ticket/get/' + user.id, {
                 method: 'GET',
                 headers: {
@@ -26,7 +32,7 @@ const MyTickets = () => {
 
     return (
         <>
-          {user.userType === "USER" ? (
+          {user && user.userType && user.userType === "USER" ? (
             <div className="listBody">
             {
                 tickets &&

@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import './EventCard.css';
 import {user} from "../../../context/Reducer";
 
@@ -28,6 +28,14 @@ const CreateEvent = () => {
     const [backstagePrice, setBackstagePrice] = useState(50);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem("currentUser"))?.user;
+        if (token === undefined) {
+        navigate('/');
+        return;
+        }
+      }, []); 
 
     function validateStates  ()  {
         let errors = "";
@@ -143,7 +151,7 @@ const CreateEvent = () => {
 
                     return (
                         <>
-                          {user.userType === "ADMIN" ? (
+                          {user && user.userType && user.userType === "ADMIN" ? (
                             <div className="container mt-3">
                               <h1>Add a New Event</h1>
                               <Form className="mx-3 my-3">

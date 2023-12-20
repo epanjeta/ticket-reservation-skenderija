@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService{
     @Autowired protected EmailService emailService;
     @Autowired private JwtUtils jwtUtils;
     @Autowired private JwtRepository jwtRepository;
+    @Autowired private AuthService authService;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -103,6 +104,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserDTO changePassword(Integer userId, String newPassword, String authorizationHeader) {
+        if(!authService.isCurrentUser(userId, authorizationHeader)){
+            throw new NotValidException(ApiResponseMessages.NO_ACCESS);
+        }
+        Optional<UserEntity> userPasswordChange = userRepository.findById(userId);
+        if(userPasswordChange.isPresent()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            userPasswordChange.get().setPassword(hashedPassword);
+            UserDTO mappedUser = UserMapper.mapToProjection(userRepository.save(userPasswordChange.get()));
+            return mappedUser;
+        }
+        return null;
+    }
+
+    @Override
     public UserDTO changePassword(Integer userId, String newPassword) {
         Optional<UserEntity> userPasswordChange = userRepository.findById(userId);
         if(userPasswordChange.isPresent()){
@@ -117,7 +134,10 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserEntity checkPassword(Integer userId, String currentPassword) {
+    public UserEntity checkPassword(Integer userId, String currentPassword, String authorizationHeader) {
+        if(!authService.isCurrentUser(userId, authorizationHeader)){
+            throw new NotValidException(ApiResponseMessages.NO_ACCESS);
+        }
         Optional<UserEntity> currentUser = userRepository.findById(userId);
         if(currentUser.isPresent()){
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

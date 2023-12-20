@@ -3,15 +3,19 @@ import {useEffect, useState} from "react";
 import {get, getAuth} from "../../../methods";
 import TaskCard from "./TaskCard";
 import './EventCard.css';
+import { useNavigate } from "react-router";
 
 
 const MyTasks = () => {
 
     const [tasks, setTasks] = useState([]);
-
-
+    const navigate = useNavigate();
     useEffect( () => {
-        const token = JSON.parse(localStorage.getItem("currentUser")).user;
+        const token = JSON.parse(localStorage.getItem("currentUser"))?.user;
+        if (token === undefined) {
+        navigate('/');
+        return;
+        }
         getAuth('/api/task/get/' + user.location.id, {
                 method: 'GET',
                 headers: {
@@ -27,7 +31,7 @@ const MyTasks = () => {
 
     return (
         <>
-          {user.userType === "ADMIN" ? (
+          {user && user.userType && user.userType === "ADMIN" ? (
               <div className="listBody">
                     {
                         tasks &&

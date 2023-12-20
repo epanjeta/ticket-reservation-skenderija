@@ -26,7 +26,11 @@ const ReserveTicket = () => {
 
 
     useEffect(() => {
-        const token = JSON.parse(localStorage.getItem("currentUser")).user;
+        const token = JSON.parse(localStorage.getItem("currentUser"))?.user;
+        if (token === undefined) {
+        navigate('/');
+        return;
+        }
         if (params && params.ticketTypeId) {
             fetch('/api/ticket/getbytype/' + params.ticketTypeId, {
                 method: 'GET',
@@ -129,7 +133,7 @@ const ReserveTicket = () => {
 
     return <>
         
-            {user.userType === "USER" ? (
+            {user && user.userType && user.userType === "USER" ? (
             ticketType && ticketType.ticketTypeDTO &&
             <div className="container">
                 <h1 style={{ textAlign: 'left', marginLeft: '10px', marginTop: '20px' }}>Ticket type: {ticketType.ticketTypeDTO.ticketType}</h1>

@@ -4,6 +4,7 @@ import ba.unsa.etf.ppis.constants.ApiResponseMessages;
 import ba.unsa.etf.ppis.dto.*;
 import ba.unsa.etf.ppis.entity.UserEntity;
 import ba.unsa.etf.ppis.exception.NotValidException;
+import ba.unsa.etf.ppis.service.AuthService;
 import ba.unsa.etf.ppis.service.UserService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,6 +26,9 @@ import java.util.regex.Pattern;
 public class UserController {
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    protected AuthService authService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
@@ -76,9 +80,9 @@ public class UserController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = String.class))})})
     @PostMapping("/changePassword/{userId}")
-    public ResponseEntity<UserDTO> changePassword(@PathVariable("userId") Integer userId, @RequestBody String newPassword){
+    public ResponseEntity<UserDTO> changePassword(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @PathVariable("userId") Integer userId, @RequestBody String newPassword){
         validatePassword(newPassword);
-        UserDTO user = userService.changePassword(userId, newPassword);
+        UserDTO user = userService.changePassword(userId, newPassword, authorizationHeader);
         if(user!=null) return new ResponseEntity<>(user, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
     }
@@ -88,8 +92,8 @@ public class UserController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = String.class))})})
     @PostMapping("/checkPassword/{userId}")
-    public ResponseEntity<UserEntity> checkPassword(@PathVariable("userId") Integer userId,@RequestBody String currentPassword){
-        UserEntity user = userService.checkPassword(userId, currentPassword);
+    public ResponseEntity<UserEntity> checkPassword(@RequestHeader(name = "Authorization", required = false) String authorizationHeader, @PathVariable("userId") Integer userId,@RequestBody String currentPassword){
+        UserEntity user = userService.checkPassword(userId, currentPassword, authorizationHeader);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
