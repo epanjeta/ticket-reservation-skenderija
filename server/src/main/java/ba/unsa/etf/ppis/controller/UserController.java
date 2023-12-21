@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*")
 public class UserController {
     @Autowired
     protected UserService userService;

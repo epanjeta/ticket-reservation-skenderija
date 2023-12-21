@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "ticket" )
+@Table(name = "ticket" )
 public class TicketEntity {
 
     @Id

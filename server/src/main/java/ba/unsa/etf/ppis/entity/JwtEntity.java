@@ -4,7 +4,7 @@ import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import jakarta.persistence.*;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "jwt" )
+@Table(name = "jwt" )
 public class JwtEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

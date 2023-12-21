@@ -5,7 +5,7 @@ import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import jakarta.persistence.*;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "availabletickets" )
+@Table(name = "availabletickets" )
 public class AvailableTicketsEntity {
 
     @Id

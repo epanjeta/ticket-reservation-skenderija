@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "user" )
+@Table(name = "users" )
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,7 +4,7 @@ import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import jakarta.persistence.*;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "ticket_type" )
+@Table(name = "ticket_type" )
 public class TicketTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

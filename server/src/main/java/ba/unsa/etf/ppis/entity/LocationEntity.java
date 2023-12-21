@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "location" )
+@Table(name = "location" )
 public class LocationEntity {
 
     @Id

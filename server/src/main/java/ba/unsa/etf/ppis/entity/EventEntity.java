@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "event" )
+@Table(name = "event" )
 public class EventEntity {
 
     @Id

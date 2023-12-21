@@ -4,7 +4,7 @@ import ba.unsa.etf.ppis.constants.DatabaseConstants;
 import jakarta.persistence.*;
 
 @Entity
-@Table(schema = DatabaseConstants.DATABASE_SCHEMA, name = "image" )
+@Table(name = "image" )
 public class ImageEntity {
 
     @Id
